@@ -1,18 +1,18 @@
 === WP Smart Property ===
 Contributors: rajanit2000
-Donate link: http://rajanresume.wordpress.com
-Tags: realestate
+Donate link: http://rajanv.com
+Tags: realestate, properties, home, house, rent, buy, sell
 Requires at least: 3.3
 Tested up to: 3.5
 Stable tag: 3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Just another realestate plugin. Simple but flexible.
+This is Real Estate plugin with smart admin control and searching option and easy to modify.
 
 == Description ==
 
-This is realestate plugin. It have a widget you can use it very simple steps.
+This is realestate plugin. It have a widget you can use it very simple steps. 
 
 == Installation ==
 

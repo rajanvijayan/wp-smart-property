@@ -2,6 +2,7 @@
 /*
 Plugin Name: WP Smart Property
 Author: <strong>Rajan V</strong>
+Version: 1.0
 Description: This is realestate plugin. It have a widget you can use it very simple steps.
 */
 
