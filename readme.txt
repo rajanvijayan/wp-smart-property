@@ -8,11 +8,11 @@ Stable tag: 3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This is Real Estate Property management plugin with smart admin control and searching option and easy to modify comfotable with your theme. Its absolute FREE plugin for property listing and management
+This is Real Estate Property management plugin with smart admin control and searching option and easy to modify comfotable with your theme. 
 
 == Description ==
 
-This is **Real Estate Property** management plugin with smart admin control and searching option and easy to modify comfotable with your theme. Its absolute FREE plugin for property listing and management
+This is **Real Estate Property** management plugin with smart admin control and searching option and easy to modify comfotable with your theme. Its absolutely FREE plugin for property listing and management
 
 = Custom Options =
 	
@@ -28,7 +28,7 @@ https://vimeo.com/96303742
 = Update =
 
 	1. Any upgrade like Theme, Plugins or WordPress its does not affect this plugin 
-	2. Its fully run by cystom post types
+	2. Its fully run by custom post types
 	3. Don't forger if you add archive-property.php. Take backup before update
 
 = Make me a beer =
@@ -67,7 +67,7 @@ Run www.your-domain.com/?post_type=property
 = 2.0 =
 
 * Update: WP Smart Property search Widget
-* New: Add icon for adminmenu
+* New: Add icon for admin menu
 * Update core functions
 
 == Upgrade Notice ==
