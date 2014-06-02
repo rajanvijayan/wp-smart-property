@@ -53,7 +53,6 @@ If you like this plugin
 == Installation ==
 
 	1. Activate the plugin through the 'Plugins' menu in WordPress.
-
 	2. Activate the widget named as Property Search Widget in property archive or where you want in your theme
 
 == Frequently Asked Questions ==
