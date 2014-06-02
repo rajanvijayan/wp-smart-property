@@ -1,33 +1,69 @@
 === WP Smart Property ===
 Contributors: rajanit2000
-Donate link: http://rajanv.com
-Tags: realestate, properties, home, house, rent, buy, sell
-Requires at least: 3.3
-Tested up to: 3.5
-Stable tag: 3.5
+Contributors: rajanit2000
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2MS5UWJSWJZYJ
+Requires at least: 3.0
+Tested up to: 3.9
+Stable tag: 3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This is Real Estate plugin with smart admin control and searching option and easy to modify.
+This is Real Estate property management plugin with smart admin control and searching option and easy to modify for your theme
 
 == Description ==
 
-This is realestate plugin. It have a widget you can use it very simple steps. 
+This is Real Estate property management plugin with smart admin control and searching option and easy to modify for your theme. This plugin stores properties like a post so its not need any theme updation
+
+= Custom Options =
+
+	Listing all properties:
+	BLOG_URL/?post_type=property
+
+= Frequently Asked Questions =
+
+	1. It required any perticular theme?
+	No, Its working on any themes
+	
+	2. How i modify listing page?
+	You can create/change "archive-property.php"
+	
+= Video Demo =
+
+Its just demo for how to add property and how to display it on front panel. You can install this plugin and see the other features
+
+[vimeo http://vimeo.com/96303742]
+
+= Features =
+
+	* Title
+	* Descriptions
+	* Featured Images
+	* No of Bedroom and Bathrooms
+	* Tags support
+	* Category support
+	* Near by and Away from options
+	* Search form widget
+	* Easy to modify
+	
+= Make me a beer =
+	
+	If you like this plugin 
+	[Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2MS5UWJSWJZYJ)
 
 == Installation ==
 
-1. Activate the plugin through the 'Plugins' menu in WordPress.
+	1. Activate the plugin through the 'Plugins' menu in WordPress.
 
-Activate the widget named as PropertySearchWidget
+	2. Activate the widget named as Property Search Widget in property archive or where you want in your theme
 
 == Frequently Asked Questions ==
 
-Do you have questions or issues with WP Smart Property? Use these support channels appropriately.
-
-1. [Support Forum](http://rajanv.com)
-
-[Support](http://rajanv.com)
-
+	1. It required any perticular theme?
+	No, Its working on any themes
+	
+	2. How i modify listing page?
+	You can create/change "archive-property.php"
+	
 == Screenshots ==
 
 1. screenshot-1.png 
