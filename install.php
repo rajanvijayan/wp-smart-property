@@ -2,10 +2,10 @@
 /*
 Plugin Name: WP Smart Wishlist
 Author: <strong>Rajan V</strong>
-Description: This is wishlist plugin for WP-e Commerce Site. It have a widget you can use it very simple steps.
+Description: This is wishlist plugin for WP-e Commerce Site. It have a widget you can use it very simple steps..
 */
 
-/*  Copyright 2007-2013 Rajan V (email: ratanit2000 at gmail.com)
+/*  Copyright 2007-2013 Rajan V (email: ratanit2000 at gmail.com).
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
