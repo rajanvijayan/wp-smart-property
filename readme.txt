@@ -1,37 +1,32 @@
-=== WP Smart Wishlist ===
+=== WP Smart Property ===
 Contributors: rajanit2000
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2MS5UWJSWJZYJ
-Tags: wishlist, wp-ecommerce, wp-ecommerce wishlist, saved products, products, ecommerce, ecommerce wishlist
-Requires at least: 3.0
-Tested up to: 3.9
-Stable tag: 3.9
+Donate link: http://rajanv.com
+Tags: realestate, properties, home, house, rent, buy, sell
+Requires at least: 3.3
+Tested up to: 3.5
+Stable tag: 3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This is Wish List Plugin for WP eCommerce Site. 
+This is Real Estate plugin with smart admin control and searching option and easy to modify.
 
 == Description ==
 
-This is Wish List Plugin for WP eCommerce Site. 
-
-= Custom Options =
-	
-	1. Install Plugin
-	2. Add Smart Wish List Widget from your theme
-
-= Make me a beer =
-
-[Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2MS5UWJSWJZYJ)
+This is realestate plugin. It have a widget you can use it very simple steps. 
 
 == Installation ==
 
-	1. Add Smart Wish List Widget from your theme
-	
+1. Activate the plugin through the 'Plugins' menu in WordPress.
+
+Activate the widget named as PropertySearchWidget
+
 == Frequently Asked Questions ==
 
-1. Is this plugin working without WP eCommerce Plugin?
+Do you have questions or issues with WP Smart Property? Use these support channels appropriately.
 
-	No, WP eCommerce Plugin is required for this plugin
+1. [Support Forum](http://rajanv.com)
+
+[Support](http://rajanv.com)
 
 == Screenshots ==
 
@@ -42,8 +37,8 @@ This is Wish List Plugin for WP eCommerce Site.
 
 = 1.0 =
 
-* New: Wishlist Plugin
+* New: WP Smart Property search Widget
 
 == Upgrade Notice ==
 
-The current version of WP Smart Wishlist requires WordPress 3.0 or higher. If you use older version of WordPress, you need to upgrade WordPress first.
+The current version of WP Smart Property requires WordPress 3.3 or higher. If you use older version of WordPress, you need to upgrade WordPress first.

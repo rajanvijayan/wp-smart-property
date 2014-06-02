@@ -1,11 +1,12 @@
-<?php
+<?php 
 /*
-Plugin Name: WP Smart Wishlist
+Plugin Name: WP Smart Property
 Author: <strong>Rajan V</strong>
-Description: This is wishlist plugin for WP-e Commerce Site. It have a widget you can use it very simple steps..
+Version: 1.0
+Description: This is realestate plugin. It have a widget you can use it very simple steps.
 */
 
-/*  Copyright 2007-2013 Rajan V (email: ratanit2000 at gmail.com).
+/*  Copyright 2007-2013 Rajan V (email: ratanit2000 at gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,163 +22,178 @@ Description: This is wishlist plugin for WP-e Commerce Site. It have a widget yo
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+ob_start();
+session_start();
+add_action('init', 'initial');
 
-// Hook for adding admin menus
-add_action('wpsc_product_form_fields_end', 'initialize_wishlist');
-add_action('wp_footer', 'ajaxUrl');
-add_action('wp_head', 'whshCSS');
-
-function whshCSS(){
-	echo '<link type="text/css" rel="stylesheet" href="'.plugins_url().'/wp-smart-wishlist/css/custom.css" />';
+function initial(){
+	$labels = array(
+	'name' => _x('Properties', 'post type general name', ''),
+	'singular_name' => _x('Property', 'post type singular name', ''),
+	'add_new' => _x('Add New', 'print', ''),
+	'add_new_item' => __('Add New Property', ''),
+	'edit_item' => __('Edit Property', ''),
+	'new_item' => __('New Property', ''),
+	'all_items' => __('All Properties', ''),
+	'view_item' => __('View Property', ''),
+	'search_items' => __('Search Properties', ''),
+	'not_found' =>  __('No properties found', ''),
+	'not_found_in_trash' => __('No properties found in Trash', ''), 
+	'parent_item_colon' => '',
+	'menu_name' => __('Properties', '')
+	);
+	$args = array(
+	'labels' => $labels,
+	'public' => true,
+	'publicly_queryable' => true,
+	'show_ui' => true, 
+	'show_in_menu' => true, 
+	'query_var' => true,
+	'capability_type' => 'post',
+	'has_archive' => true, 
+	'hierarchical' => false,
+	'menu_position' => null,
+	'menu_icon' => plugins_url( 'wp-smart-property/images/property.png'),
+	'supports' =>array( 'title', 'editor', 'thumbnail' )
+	); 
+	register_post_type('property', $args);
+	
+	$args = array(
+		'hierarchical'          => true,
+		'show_ui'               => true,
+		'labels'                => array('name' => 'Category' , 'menu_name' => 'Category' ),
+		'show_admin_column'     => true,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'property_category' ),
+	);
+	register_taxonomy( 'property_category', 'property', $args );
+	
+	$args = array(
+		'hierarchical'          => true,
+		'show_ui'               => true,
+		'labels'                => array('name' => 'Bed Room' , 'menu_name' => 'Bed Room' ),
+		'show_admin_column'     => true,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'bedroom' ),
+		'show_in_nav_menus'		=> false
+	);
+	register_taxonomy( 'bedroom', 'property', $args );
+	
+	$args = array(
+		'hierarchical'          => true,
+		'show_ui'               => true,
+		'labels'                => array('name' => 'Bath Room' , 'menu_name' => 'Bath Room' ),
+		'show_admin_column'     => true,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'bathroom' ),
+		'show_in_nav_menus'		=> false
+	);
+	register_taxonomy( 'bathroom', 'property', $args );
+	
+	$args = array(
+		'hierarchical'          => true,
+		'show_ui'               => true,
+		'labels'                => array('name' => 'Car Space' , 'menu_name' => 'Car Space' ),
+		'show_admin_column'     => true,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'carspace' ),
+		'show_in_nav_menus'		=> false
+	);
+	register_taxonomy( 'carspace', 'property', $args );
+	
+	$args = array(
+		'hierarchical'          => true,
+		'show_ui'               => true,
+		'labels'                => array('name' => 'Residency Type' , 'menu_name' => 'Residency Type' ),
+		'show_admin_column'     => true,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'residencytype' ),
+	);
+	register_taxonomy( 'residencytype', 'property', $args );
+	
+	$args = array(
+		'hierarchical'          => false,
+		'show_ui'               => true,
+		'labels'                => array('name' => 'Close to' , 'menu_name' => 'Close to' ),
+		'show_admin_column'     => true,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'closeto' ),
+		'show_in_nav_menus'		=> false
+	);
+	register_taxonomy( 'closeto', 'property', $args );
+	
+	$args = array(
+		'hierarchical'          => false,
+		'show_ui'               => true,
+		'labels'                => array('name' => 'Away from' , 'menu_name' => 'Away from' ),
+		'show_admin_column'     => true,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'awayfrom' ),
+		'show_in_nav_menus'		=> false
+	);
+	register_taxonomy( 'awayfrom', 'property', $args );
+	
+	$args = array(
+		'hierarchical'          => false,
+		'show_ui'               => true,
+		'labels'                => array('name' => 'Features' , 'menu_name' => 'Features' ),
+		'show_admin_column'     => true,
+		'update_count_callback' => '_update_post_term_count',
+		'query_var'             => true,
+		'rewrite'               => array( 'slug' => 'features' ),
+		'show_in_nav_menus'		=> false
+	);
+	register_taxonomy( 'features', 'property', $args );
+	
 }
 
-function initialize_wishlist(){
-	global $current_user;
+
+add_action( 'admin_init', 'my_admin_property' );
+function my_admin_property() {
+	add_meta_box( 'property_meta_box', 'Property Details', 'display_property_meta_box','property', 'normal', 'high' );
+}
+
+function display_property_meta_box( $property ) {
 	?>
-    
-	<input type="button" value="<?php _e( 'Add to Wishlist ');?>" class="addWishlist" proid="<?php echo wpsc_the_product_id();?>" />
-    <?php echo get_user_meta( $current_user->ID, 'wp_smart_wishlist', true ) ;?>
-    <?php
-}
-function ajaxUrl() {
-    ?>
-	<script type="text/javascript" >
-	function loadWishlist(){
-		var data = { 'action': 'load_wish_list'};
-		var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
-			jQuery.post(ajaxurl, data, function(response) {
-			jQuery('#wishlist').html(response);
-		});
-	}
-	function removeWishlist( proid ){
-		var data = { 'action': 'remove_wish_list', 'proid': proid };
-		var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
-			jQuery.post(ajaxurl, data, function(response) {
-			loadWishlist();
-		});
-	}
-    jQuery(document).ready(function() {
-		loadWishlist();
-		jQuery('.addWishlist').click(function(){
-			<?php if ( is_user_logged_in() ) {?>
-			var data = { 'action': 'add_wish_list', 'proid': jQuery(this).attr('proid') };
-			var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
-				jQuery.post(ajaxurl, data, function(response) {
-				loadWishlist();
-			});
-			<?php }else{?>
-				alert('Please login after use this option');
-			<?php }?>
-		});
+	<table>
 		
-    });
-    </script>
-	<?php
+        <tr>
+            <td style="width: 100%">Address</td>
+            <td><textarea style="width:425px; height:100px;" name="meta[full_addrerss]" class="mceEditor" id='textareaID'><?php echo esc_html( get_post_meta( $property->ID, 'full_addrerss', true ) );?></textarea>
+            <p class="howto">( Please put correct address )</p>
+            </td>
+		</tr>
+        
+	</table>
+<?php 
 }
 
-add_action( 'wp_ajax_add_wish_list', 'add_wish_list_callback' );
+add_action( 'save_post', 'add_property_fields', 10, 2 );
 
-function add_wish_list_callback() {
-	global $wpdb;
-
-	$proid = $_POST['proid'];
-	$user_ID = get_current_user_id();
-
-	$wishlist = get_user_meta( $user_ID , 'wishlist', true);
-	$array = unserialize ( $wishlist );
-	if( ! in_array($proid ,$array) ){
-		$array[] .= $proid;
-		$new_wish = serialize( $array );
-		update_user_meta( $user_ID , 'wishlist' , $new_wish, $wishlist );	
-	}
-	
-	die();
-}
-
-add_action( 'wp_ajax_remove_wish_list', 'remove_wish_list_callback' );
-
-function remove_wish_list_callback() {
-	global $wpdb;
-
-	$proid = $_POST['proid'];
-	$user_ID = get_current_user_id();
-
-	$wishlist = get_user_meta( $user_ID , 'wishlist', true);
-	$array = unserialize ( $wishlist );
-	if( in_array($proid ,$array) ){
-		$key = array_search($proid ,$array); 
-		unset( $array[$key]);
-		$new_wish = serialize( $array );
-		update_user_meta( $user_ID , 'wishlist' , $new_wish, $wishlist );	
-	}
-	
-	die();
-}
-
-add_action( 'wp_ajax_load_wish_list', 'load_wish_list_callback' );
-
-function load_wish_list_callback() {
-	global $wpdb;
-
-	$user_ID = get_current_user_id();
-
-	$wishlist = get_user_meta( $user_ID , 'wishlist', true);
-	$array = unserialize ( $wishlist );
-	
-	$html = '<table class="wishlist-table">
-					<thead>
-						<tr>
-							<th>SNo</th>
-							<th>Product Name</th>
-							<th>Image</th>
-							<th>&nbsp</th>
-						<tr>
-					<thead>
-					<tbody>
-						';
-						$i = 1;
-		if( ! empty($array) ){
-			foreach( $array as $k => $v ){
-				global $post;
-				$post = get_post( $v );
-				setup_postdata($post);
-				if ( has_post_thumbnail() ) {
-					$img = get_the_post_thumbnail( $post_id, array(64,64) );
-				}
-				else {
-					$img = '<img src="' . plugins_url( 'image/notfound.png' , __FILE__ ).'" alt="Image" width="64" height="64" />';
-				}
-	
-				//Template Start
-				$html .= '	<tr>
-								<td>'.$i.'</td>
-								<td><a href="'.get_permalink().'">'. get_the_title() .'</a></td>
-								<td>'.$img.'</td>
-								<td><a href="javascript:void();" onclick="removeWishlist('.get_the_ID().')"><img src="' . plugins_url( 'image/remove.png' , __FILE__ ).'" alt="Remove" width="16" height="16" /></a></td>
-							<tr>';
-				//Template End
-				$i++;
+function add_property_fields( $property_id, $property ) {
+	if ( $property->post_type == 'property' ) {
+		if ( isset( $_POST['meta'] ) ) {
+			foreach( $_POST['meta'] as $key => $value ){
+				update_post_meta( $property_id, $key, $value );
 			}
 		}
-		else{
-			$html .= '<tr><td colspan="4">No Wishlist Found</td></tr>';
-		}
-		$html .= '	</tbody>
-					</table>';
-		echo $html;
-		
-	
-	die();
+	}
 }
 
-/********WIDGET SECTION*********/
 
-class WishlistWidget extends WP_Widget
+class PropertySearchWidget extends WP_Widget
 {
-  function WishlistWidget()
+  function PropertySearchWidget()
   {
-    $widget_ops = array('classname' => 'WishlistWidget', 'description' => 'Displays Wishlist' );
-    $this->WP_Widget('WishlistWidget', 'Smart Wish List', $widget_ops);
+    $widget_ops = array('classname' => 'PropertySearchWidget', 'description' => 'Displays Property Search Form' );
+    $this->WP_Widget('PropertySearchWidget', 'PropertySearch', $widget_ops);
   }
  
   function form($instance)
@@ -204,15 +220,129 @@ class WishlistWidget extends WP_Widget
     $title = empty($instance['title']) ? ' ' : apply_filters('widget_title', $instance['title']);
  
     if (!empty($title))
-      echo $before_title . $title . $after_title;;
- 
-    // WIDGET CODE GOES HERE
-    echo "<div id='wishlist'></div>";
- 
-    echo $after_widget;
+	echo $before_title . $title . $after_title;;
+	?>
+    <div class="search-form">
+        <h2>Search Property</h2>
+        <form action="<?php bloginfo( 'url' );?>" method="get" >
+            <input type="hidden" name="post_type" value="property" />
+            <input type="text" name="s" id="search-key" value="<?php echo get_query_var( 's' ) ?>" class="input-block-level" placeholder="Enter suburb, postcode or property ID" />
+            <div class="row-fluid">
+                <div class="span4">
+                    <label class="bedroom-icon">Bedrooms</label>
+                </div>
+                <div class="span8">
+                    <select name="bedroom" class="input-block-level">
+                        <option value="">Any</option>
+                        <?php
+                        $terms = get_terms("bedroom");
+                        $count = count($terms);
+                        if ( $count > 0 ){
+                            foreach ( $terms as $term ) {?>
+                            <option <?php if( get_query_var( 'bedroom' ) == $term->name ){?> selected <?php }?>><?php echo $term->name;?></option>
+                        <?php }
+                        }?>
+                    </select>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4">
+                    <label class="bathroom-icon">Bathrooms</label>
+                </div>
+                <div class="span8">
+                    <select name="bathroom" class="input-block-level">
+                        <option value="">Any</option>
+                        <?php
+                        $terms = get_terms("bathroom");
+                        $count = count($terms);
+                        if ( $count > 0 ){
+                            foreach ( $terms as $term ) {?>
+                            <option <?php if( get_query_var( 'bathroom' ) == $term->name ){?> selected <?php }?>><?php echo $term->name;?></option>
+                        <?php }
+                        }?>
+                    </select>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4">
+                    <label class="car-icon">Car space</label>
+                </div>
+                <div class="span8">
+                    <select name="carspace" class="input-block-level">
+                        <option value="">Any</option>
+                        <?php
+                        $terms = get_terms("carspace");
+                        $count = count($terms);
+                        if ( $count > 0 ){
+                            foreach ( $terms as $term ) {?>
+                            <option <?php if( get_query_var( 'carspace' ) == $term->name ){?> selected <?php }?>><?php echo $term->name;?></option>
+                        <?php }
+                        }?>
+                    </select>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4">
+                    <label class="home-icon">Type</label>
+                </div>
+                <div class="span8">
+                    <select name="residencytype" class="input-block-level">
+                        <option value="">Any</option>
+                        <?php
+                        $terms = get_terms("residencytype");
+                        $count = count($terms);
+                        if ( $count > 0 ){
+                            foreach ( $terms as $term ) {?>
+                            <option <?php if( get_query_var( 'residencytype' ) == $term->name ){?> selected <?php }?>><?php echo $term->name;?></option>
+                        <?php }
+                        }?>
+                    </select>
+                </div>
+            </div>
+            <div class="advance-search">
+            <h2>Search with</h2>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <h3>Close to</h3>
+                        <?php
+                        $terms = get_terms("closeto");
+                        $count = count($terms);
+                        if ( $count > 0 ){
+                            foreach ( $terms as $term ) {?>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="closeto" value="<?php echo $term->name;?>" type="checkbox" /><?php echo $term->name;?>
+                                </label>
+                            </div>
+                        <?php }
+                        }?>
+                    </div>
+                    <div class="span6">
+                        <h3>Stay away from..</h3>
+                        <?php
+                        $terms = get_terms("awayfrom");
+                        $count = count($terms);
+                        if ( $count > 0 ){
+                            foreach ( $terms as $term ) {?>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="awayfrom" value="<?php echo $term->name;?>" type="checkbox" /><?php echo $term->name;?>
+                                </label>
+                            </div>
+                        <?php }
+                        }?>
+                    </div>
+                </div>
+            </div>
+            <div class="submit">
+                <input type="submit" class="btn btn-new" value="Search Now" />
+            </div>
+        </form>
+    </div>
+    <?php
+	echo $after_widget;
   }
  
 }
-add_action( 'widgets_init', create_function('', 'return register_widget("WishlistWidget");') );
-
+add_action( 'widgets_init', create_function('', 'return register_widget("PropertySearchWidget");') );
 ?>
