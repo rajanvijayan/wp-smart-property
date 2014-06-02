@@ -1,35 +1,23 @@
-=== WP Smart Property ===
+=== WP Smart Wishlist ===
 Contributors: rajanit2000
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2MS5UWJSWJZYJ
-Tags: realestate, properties, home, house, rent, buy, sell
+Tags: wishlist, wp-ecommerce, wp-ecommerce wishlist, saved products, products, ecommerce, ecommerce wishlist
 Requires at least: 3.0
 Tested up to: 3.9
 Stable tag: 3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This is Real Estate Property management plugin with smart admin control and searching option and easy to modify comfotable with your theme. 
+This is Wish List Plugin for WP eCommerce Site. 
 
 == Description ==
 
-This is **Real Estate Property** management plugin with smart admin control and searching option and easy to modify comfotable with your theme. Its absolutely FREE plugin for property listing and management
+This is Wish List Plugin for WP eCommerce Site. 
 
 = Custom Options =
 	
-	1. Create archive-property.php file like normal archive.php page
-	2. All properties are saved as property post type
-	3. User [get_post_meta()](http://codex.wordpress.org/Function_Reference/get_post_meta) functions
-
-= How to add Property =
-
-Its very simple way 
-https://vimeo.com/96303742
-
-= Update =
-
-	1. Any upgrade like Theme, Plugins or WordPress its does not affect this plugin 
-	2. Its fully run by custom post types
-	3. Don't forger if you add archive-property.php. Take backup before update
+	1. Install Plugin
+	2. Add Smart Wish List Widget from your theme
 
 = Make me a beer =
 
@@ -37,21 +25,13 @@ https://vimeo.com/96303742
 
 == Installation ==
 
-1. Activate the plugin through the 'Plugins' menu in WordPress.
-
-Activate the widget named as PropertySearchWidget
-
+	1. Add Smart Wish List Widget from your theme
+	
 == Frequently Asked Questions ==
 
-Do you have questions or issues with WP Smart Property? Use these support channels appropriately.
+1. Is this plugin working without WP eCommerce Plugin?
 
-1. How to add property?
-
-Goto admin panel. Property > Add Properety and follow the simple steps
-
-2. How to display all property
-
-Run www.your-domain.com/?post_type=property
+	No, WP eCommerce Plugin is required for this plugin
 
 == Screenshots ==
 
@@ -62,14 +42,8 @@ Run www.your-domain.com/?post_type=property
 
 = 1.0 =
 
-* New: WP Smart Property search Widget
-
-= 2.0 =
-
-* Update: WP Smart Property search Widget
-* New: Add icon for admin menu
-* Update core functions
+* New: Wishlist Plugin
 
 == Upgrade Notice ==
 
-The current version of WP Smart Property requires WordPress 3.3 or higher. If you use older version of WordPress, you need to upgrade WordPress first.
+The current version of WP Smart Wishlist requires WordPress 3.0 or higher. If you use older version of WordPress, you need to upgrade WordPress first.
