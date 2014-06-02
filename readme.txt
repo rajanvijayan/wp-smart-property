@@ -47,8 +47,8 @@ Its just demo for how to add property and how to display it on front panel. You 
 	
 = Make me a beer =
 	
-	If you like this plugin 
-	[Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2MS5UWJSWJZYJ)
+If you like this plugin 
+[Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2MS5UWJSWJZYJ)
 
 == Installation ==
 
