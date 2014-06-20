@@ -1,6 +1,5 @@
 === WP Smart Property ===
 Contributors: rajanit2000
-Contributors: rajanit2000
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2MS5UWJSWJZYJ
 Requires at least: 3.0
 Tested up to: 3.9
