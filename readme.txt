@@ -2,8 +2,8 @@
 Contributors: rajanit2000
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2MS5UWJSWJZYJ
 Requires at least: 3.0
-Tested up to: 3.9
-Stable tag: 3.9
+Tested up to: 4.0
+Stable tag: 4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,10 @@ If you like this plugin
 
 * New: WP Smart Property search Widget
 
+= 2.0 =
+
+* Update: Update custom Taxonomy codes
+
 == Upgrade Notice ==
 
-The current version of WP Smart Property requires WordPress 3.3 or higher. If you use older version of WordPress, you need to upgrade WordPress first.
+The current version of WP Smart Property requires WordPress 3.0 or higher. If you use older version of WordPress, you need to upgrade WordPress first.
