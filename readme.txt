@@ -1,6 +1,5 @@
 === WP Smart Property ===
-Contributors: rajanit2000
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2MS5UWJSWJZYJ
+Contributors: rajanit2000,a2ztechnologies
 Requires at least: 3.0
 Tested up to: 4.0
 Stable tag: 4.0
@@ -44,11 +43,6 @@ Its just demo for how to add property and how to display it on front panel. You 
 	* Search form widget
 	* Easy to modify
 	
-= Make me a beer =
-	
-If you like this plugin 
-[Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2MS5UWJSWJZYJ)
-
 == Installation ==
 
 	1. Activate the plugin through the 'Plugins' menu in WordPress.
