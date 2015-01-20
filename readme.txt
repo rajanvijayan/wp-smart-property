@@ -1,8 +1,9 @@
 === WP Smart Property ===
 Contributors: rajanit2000,a2ztechnologies
+Tags: Real Estate, Property, Real Estate Property, Property Search, Rent and Lease, Home for sale
 Requires at least: 3.0
-Tested up to: 4.0
-Stable tag: 4.0
+Tested up to: 4.1
+Stable tag: 4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
