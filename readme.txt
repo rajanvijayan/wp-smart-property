@@ -1,6 +1,6 @@
 === WP Smart Property ===
 Contributors: a2ztechnologies
-Tags: Real Estate, Property, Real Estate Property, Property Search, Rent and Lease, Home for sale
+Tags: Real Estate, Property, Real Estate Property, Property Search, Rent and Lease, Home for sale, real estate plugin for wordpress, property plugin for wordpress, wp property
 Requires at least: 3.0
 Tested up to: 4.1
 Stable tag: 4.1
