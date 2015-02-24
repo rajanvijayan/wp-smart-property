@@ -1,5 +1,5 @@
 === WP Smart Property ===
-Contributors: rajanit2000,a2ztechnologies
+Contributors: a2ztechnologies
 Tags: Real Estate, Property, Real Estate Property, Property Search, Rent and Lease, Home for sale
 Requires at least: 3.0
 Tested up to: 4.1
