@@ -1,0 +1,50 @@
+name: Deploy to WordPress SVN
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Read plugin slug from package.json
+        id: get-slug
+        run: |
+          SLUG=$(jq -r '.name' package.json)
+          echo "::set-output name=slug::$SLUG"
+
+      - name: Prepare plugin files
+        run: |
+          # Add any necessary build steps here
+          # Ensure plugin files are organized correctly
+
+      - name: Install SVN
+        run: sudo apt-get install -y subversion
+
+      - name: SVN checkout WordPress.org plugin repository
+        run: svn checkout https://plugins.svn.wordpress.org/${{ steps.get-slug.outputs.slug }} /tmp/wordpress-plugin
+
+      - name: Copy plugin files to WordPress.org SVN repository
+        run: |
+          rsync -av --exclude='.git' --exclude='.github' --exclude='node_modules' --exclude='package.json' --exclude='package-lock.json' --exclude='composer.json' --exclude='composer.lock' --exclude='gulpfile.js' --exclude='README.md' --exclude='.gitignore' ./ /tmp/wordpress-plugin/trunk/
+
+      - name: Commit changes
+        run: |
+          cd /tmp/wordpress-plugin
+          svn add --force * --auto-props --parents --depth infinity -q
+          svn status | grep '^!' | sed 's/!      /svn rm -q/' | sh
+          svn commit -m "Deploying latest version from GitHub Actions"
+
+      - name: Cleanup
+        run: rm -rf /tmp/wordpress-plugin
