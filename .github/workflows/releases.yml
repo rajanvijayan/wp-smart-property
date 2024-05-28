@@ -1,0 +1,55 @@
+name: Create Release
+
+on:
+  workflow_dispatch:  # This allows manual triggering of the workflow
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        tools: composer
+
+    - name: Install Composer dependencies
+      run: composer install 
+
+    - name: Get version from package.json
+      id: get_version
+      run: echo "::set-output name=VERSION::$(node -p -e "require('./package.json').version")"
+
+    - name: Cleanup unnecessary files
+      run: |
+        rm -f composer.json composer.lock package.json package-lock.json README.md
+
+    - name: Zip the plugin
+      run: |
+        zip -r wp-smart-property.zip . -x "*.git*" -x "*.github*" -x "*.yml"
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      with:
+        tag_name: v${{ steps.get_version.outputs.VERSION }}
+        release_name: WP Smart Property v${{ steps.get_version.outputs.VERSION }}
+        body: "v${{ steps.get_version.outputs.VERSION }} release of the WP Smart Property plugin."
+        draft: false
+        prerelease: false
+
+    - name: Upload to Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./wp-smart-property.zip
+        asset_name: wp-smart-property.zip
+        asset_content_type: application/zip
