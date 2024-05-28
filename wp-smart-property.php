@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Smart Property
  * Description: WP Smart Property is a comprehensive WordPress plugin designed to manage property listings with ease. This plugin allows users to create, edit, and display property listings on their WordPress website.
- * Version: 2.0.0
+ * Version: 3.0.0
  * Author: Rajan Vijayan
  * Text Domain: wp-smart-property
  */
