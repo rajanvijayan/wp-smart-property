@@ -1,0 +1,28 @@
+{
+    "name": "wp-smart-property",
+    "version": "3.0.0",
+    "description": "WP Smart Property is a comprehensive WordPress plugin designed to manage property listings with ease.",
+    "main": "wp-smart-property.php",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Rajan Vijayan",
+    "license": "MIT",
+    "dependencies": {},
+    "devDependencies": {},
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/yourusername/wp-smart-property.git"
+    },
+    "keywords": [
+      "wordpress",
+      "plugin",
+      "property",
+      "real estate"
+    ],
+    "bugs": {
+      "url": "https://github.com/yourusername/wp-smart-property/issues"
+    },
+    "homepage": "https://rajanvijayan.com"
+  }
+  
