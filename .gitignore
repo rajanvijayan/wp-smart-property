@@ -1,0 +1,22 @@
+# Ignore Composer vendor directory
+/vendor/
+
+# Ignore node_modules directory for frontend assets
+/node_modules/
+
+# Ignore IDE specific files and directories
+.idea/
+.vscode/
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore plugin build artifacts
+/dist/
+*.zip
+
+# Other files
+composer.lock
+package-lock.json
+
