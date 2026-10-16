@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<ruleset name="EstateCraft">
+	<description>WordPress Coding Standards for EstateCraft.</description>
+
+	<file>init.php</file>
+	<file>uninstall.php</file>
+	<file>src</file>
+
+	<arg name="extensions" value="php"/>
+	<arg value="sp"/>
+	<arg name="colors"/>
+
+	<config name="testVersion" value="7.4-"/>
+	<config name="minimum_wp_version" value="6.5"/>
+
+	<rule ref="WordPress"/>
+	<rule ref="PHPCompatibilityWP"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="wp-smart-property"/>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="WordPress.WP.Capabilities">
+		<properties>
+			<property name="custom_capabilities" type="array">
+				<element value="manage_estatecraft"/>
+				<element value="manage_estate_terms"/>
+				<element value="edit_estate_properties"/>
+				<element value="publish_estate_properties"/>
+				<element value="edit_others_estate_properties"/>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="EstateCraft"/>
+				<element value="estatecraft"/>
+				<element value="ESTATECRAFT"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

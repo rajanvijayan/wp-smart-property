@@ -30,11 +30,19 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
+          tools: composer
           coverage: none
+
+      # vendor/ is not in Git; this creates the autoloader that ships.
+      - name: Install production dependencies
+        run: composer install --no-dev --prefer-dist --no-progress --no-interaction --optimize-autoloader
 
       # The WordPress.org SVN hook rejects any file that fails php -l; fail here instead.
       - name: Lint shipped PHP
-        run: find . -name '*.php' -not -path './vendor/*' -not -path './tests/*' -not -path './bin/*' -print0 | xargs -0 -n1 -P4 php -d display_errors=stderr -l > /dev/null
+        run: find . -name '*.php' -not -path './tests/*' -not -path './bin/*' -print0 | xargs -0 -n1 -P4 php -d display_errors=stderr -l > /dev/null
+
+      - name: Smoke-test autoloader
+        run: php -r 'require "vendor/autoload.php"; if (!class_exists("EstateCraft\\Plugin")) { fwrite(STDERR, "missing EstateCraft\\Plugin\n"); exit(1); }'
 
       - name: Deploy to WordPress.org SVN
         id: deploy

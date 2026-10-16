@@ -1,7 +1,7 @@
 /.git
 /.github
 /.wordpress-org
-/vendor
+/vendor/bin
 /tests
 /bin
 /docs
@@ -17,3 +17,4 @@ README.md
 RELEASING.md
 CLAUDE.md
 .phpunit.result.cache
+phpcs.xml.dist
