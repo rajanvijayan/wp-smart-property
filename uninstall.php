@@ -26,3 +26,5 @@ foreach ( $estatecraft_options as $estatecraft_option ) {
 	delete_option( $estatecraft_option );
 }
 wp_clear_scheduled_hook( 'estatecraft_migrate' );
+wp_clear_scheduled_hook( 'estatecraft_reindex' );
+wp_clear_scheduled_hook( 'estatecraft_geocode' );

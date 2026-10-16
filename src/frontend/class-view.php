@@ -204,6 +204,34 @@ final class View {
 	}
 
 	/**
+	 * Short price for map pins: "$475k", "£1.25M", "€2.4k".
+	 *
+	 * @param int $post_id Property ID.
+	 * @return string
+	 */
+	public static function short_price( $post_id ) {
+		$amount = (float) Fields::get( $post_id, 'price' );
+		if ( ! $amount || Fields::get( $post_id, 'price_on_request' ) ) {
+			return '';
+		}
+		$g     = Settings::get( 'general' );
+		$point = '' !== $g['decimal_point'] ? $g['decimal_point'] : '.';
+		// 1.50 -> 1.5 and 2.00 -> 2, but 390 stays 390.
+		$short = static function ( $value, $decimals ) use ( $point ) {
+			$text = number_format( $value, $decimals, $point, '' );
+			return $decimals ? rtrim( rtrim( $text, '0' ), $point ) : $text;
+		};
+		if ( $amount >= 1000000 ) {
+			$number = $short( $amount / 1000000, 2 ) . __( 'M', 'wp-smart-property' );
+		} elseif ( $amount >= 1000 ) {
+			$number = $short( $amount / 1000, $amount < 10000 ? 1 : 0 ) . __( 'k', 'wp-smart-property' );
+		} else {
+			$number = number_format( $amount, 0, $point, $g['thousands'] );
+		}
+		return $g['symbol_after'] ? $number . ' ' . $g['symbol'] : $g['symbol'] . $number;
+	}
+
+	/**
 	 * A number without needless decimals (2.5, 3).
 	 *
 	 * @param float $value Number.

@@ -325,10 +325,135 @@ function LayoutControls( { attributes, setAttributes, withList = true } ) {
 	);
 }
 
+const SEARCH_FIELDS = [
+	[ 'keyword', __( 'Keyword', 'wp-smart-property' ) ],
+	[ 'location', __( 'Location', 'wp-smart-property' ) ],
+	[ 'type', __( 'Property type', 'wp-smart-property' ) ],
+	[ 'status', __( 'For sale or rent', 'wp-smart-property' ) ],
+	[ 'price', __( 'Price', 'wp-smart-property' ) ],
+	[ 'beds', __( 'Bedrooms', 'wp-smart-property' ) ],
+	[ 'baths', __( 'Bathrooms', 'wp-smart-property' ) ],
+];
+
 /**
  * Sidebar settings by block.
  */
 const CONTROLS = {
+	'estatecraft/property-search': ( { attributes, setAttributes } ) => (
+		<>
+			{ SEARCH_FIELDS.map( ( [ key, label ] ) => (
+				<CheckboxControl
+					{ ...common }
+					key={ key }
+					label={ label }
+					checked={ attributes.fields.includes( key ) }
+					onChange={ ( on ) =>
+						setAttributes( {
+							fields: on
+								? SEARCH_FIELDS.map( ( [ k ] ) => k ).filter(
+										( k ) =>
+											k === key ||
+											attributes.fields.includes( k )
+								  )
+								: attributes.fields.filter(
+										( k ) => k !== key
+								  ),
+						} )
+					}
+				/>
+			) ) }
+			<ToggleControl
+				{ ...common }
+				label={ __( '“More filters”', 'wp-smart-property' ) }
+				help={ __(
+					'Area, features and the custom fields marked as filters.',
+					'wp-smart-property'
+				) }
+				checked={ attributes.more }
+				onChange={ ( more ) => setAttributes( { more } ) }
+			/>
+			<SelectControl
+				{ ...sized }
+				label={ __( 'Layout', 'wp-smart-property' ) }
+				value={ attributes.layout }
+				options={ [
+					{
+						value: 'bar',
+						label: __( 'Bar', 'wp-smart-property' ),
+					},
+					{
+						value: 'stacked',
+						label: __( 'Stacked (sidebars)', 'wp-smart-property' ),
+					},
+				] }
+				onChange={ ( layout ) => setAttributes( { layout } ) }
+			/>
+			<TextControl
+				{ ...sized }
+				label={ __( 'Button text', 'wp-smart-property' ) }
+				placeholder={ __( 'Search', 'wp-smart-property' ) }
+				value={ attributes.buttonText }
+				onChange={ ( buttonText ) => setAttributes( { buttonText } ) }
+			/>
+		</>
+	),
+	'estatecraft/search-results': ( { attributes, setAttributes } ) => (
+		<>
+			<SelectControl
+				{ ...sized }
+				label={ __( 'Start with', 'wp-smart-property' ) }
+				value={ attributes.view }
+				options={ [
+					{
+						value: 'split',
+						label: __( 'List and map', 'wp-smart-property' ),
+					},
+					{
+						value: 'list',
+						label: __( 'List', 'wp-smart-property' ),
+					},
+					{
+						value: 'map',
+						label: __( 'Map', 'wp-smart-property' ),
+					},
+				] }
+				onChange={ ( view ) => setAttributes( { view } ) }
+			/>
+			<SelectControl
+				{ ...sized }
+				label={ __( 'Cards', 'wp-smart-property' ) }
+				value={ attributes.layout }
+				options={ [
+					{ value: 'grid', label: __( 'Grid', 'wp-smart-property' ) },
+					{ value: 'list', label: __( 'List', 'wp-smart-property' ) },
+				] }
+				onChange={ ( layout ) => setAttributes( { layout } ) }
+			/>
+			{ attributes.layout === 'grid' && (
+				<RangeControl
+					{ ...sized }
+					label={ __( 'Columns', 'wp-smart-property' ) }
+					help={ __(
+						'Next to the map, two columns fit best.',
+						'wp-smart-property'
+					) }
+					min={ 1 }
+					max={ 4 }
+					value={ attributes.columns }
+					onChange={ ( columns ) => setAttributes( { columns } ) }
+				/>
+			) }
+			<RangeControl
+				{ ...sized }
+				label={ __( 'Map height (px)', 'wp-smart-property' ) }
+				min={ 300 }
+				max={ 1000 }
+				step={ 20 }
+				value={ attributes.mapHeight }
+				onChange={ ( mapHeight ) => setAttributes( { mapHeight } ) }
+			/>
+		</>
+	),
 	'estatecraft/property-gallery': ( { attributes, setAttributes } ) => (
 		<SelectControl
 			{ ...sized }
@@ -566,6 +691,8 @@ function Edit( props ) {
 	'featured-property',
 	'agents',
 	'agent-profile',
+	'property-search',
+	'search-results',
 ].forEach( ( name ) =>
 	registerBlockType( 'estatecraft/' + name, {
 		edit: Edit,

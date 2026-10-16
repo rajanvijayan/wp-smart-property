@@ -9,14 +9,17 @@ namespace EstateCraft\Frontend;
 
 use EstateCraft\Agents\Agent_Types;
 use EstateCraft\Properties\Agent_Link;
+use EstateCraft\Properties\Fields;
 use EstateCraft\Properties\Property_Type;
 use EstateCraft\Properties\Taxonomies;
 use EstateCraft\Search\Index;
+use EstateCraft\Search\Search;
 use WP_Query;
 
 /**
  * Sorting and room filters read the search index (one join) instead of post meta. A query opts in
- * with the estatecraft_index query var: { order, bedrooms, bathrooms, featured }.
+ * with the estatecraft_index query var: { order, featured, located, beds, baths, price_min,
+ * price_max, area_min, area_max, bounds, keyword } (see Search::query_args()).
  */
 final class Query {
 
@@ -28,19 +31,6 @@ final class Query {
 	public static function register() {
 		add_action( 'pre_get_posts', array( self::class, 'archives' ) );
 		add_filter( 'posts_clauses', array( self::class, 'clauses' ), 10, 2 );
-		add_filter( 'query_vars', array( self::class, 'query_vars' ) );
-	}
-
-	/**
-	 * Public query vars (the 2.0 bedroom and bathroom archives redirect to these).
-	 *
-	 * @param string[] $vars Vars.
-	 * @return string[]
-	 */
-	public static function query_vars( $vars ) {
-		$vars[] = 'bedrooms';
-		$vars[] = 'bathrooms';
-		return $vars;
 	}
 
 	/**
@@ -63,21 +53,14 @@ final class Query {
 			return;
 		}
 		if ( self::is_property_archive( $query ) ) {
+			// Archives are search results: the same URL parameters filter and sort them.
+			$criteria = Search::from_request();
 			$query->set( 'post_type', Property_Type::POST_TYPE );
-			/**
-			 * Filters the number of properties per archive page.
-			 *
-			 * @param int $per_page Properties per page.
-			 */
-			$query->set( 'posts_per_page', (int) apply_filters( 'estatecraft_archive_per_page', 12 ) );
-			$query->set(
-				'estatecraft_index',
-				array(
-					'order'     => 'featured',
-					'bedrooms'  => absint( $query->get( 'bedrooms' ) ),
-					'bathrooms' => (float) $query->get( 'bathrooms' ),
-				)
-			);
+			$query->set( 'posts_per_page', Search::per_page() );
+			$query->set( 'paged', isset( $criteria['pg'] ) ? $criteria['pg'] : max( 1, (int) $query->get( 'paged' ) ) );
+			foreach ( Search::query_args( $criteria ) as $key => $value ) {
+				$query->set( $key, $value );
+			}
 		} elseif ( $query->is_post_type_archive( array( Agent_Types::AGENT, Agent_Types::AGENCY ) ) ) {
 			$query->set( 'posts_per_page', 24 );
 			$query->set( 'orderby', 'title' );
@@ -104,17 +87,60 @@ final class Query {
 		if ( empty( $clauses['groupby'] ) ) {
 			$clauses['groupby'] = "{$wpdb->posts}.ID";
 		}
-		if ( ! empty( $opts['bedrooms'] ) ) {
-			$clauses['where'] .= $wpdb->prepare( ' AND ecx.bedrooms >= %d', $opts['bedrooms'] );
+		$where = '';
+		// Minimum rooms (bedrooms/bathrooms are the older names used by listing blocks).
+		$beds  = ! empty( $opts['beds'] ) ? $opts['beds'] : ( ! empty( $opts['bedrooms'] ) ? $opts['bedrooms'] : 0 );
+		$baths = ! empty( $opts['baths'] ) ? $opts['baths'] : ( ! empty( $opts['bathrooms'] ) ? $opts['bathrooms'] : 0 );
+		if ( $beds ) {
+			$where .= $wpdb->prepare( ' AND ecx.bedrooms >= %d', $beds );
 		}
-		if ( ! empty( $opts['bathrooms'] ) ) {
-			$clauses['where'] .= $wpdb->prepare( ' AND ecx.bathrooms >= %f', $opts['bathrooms'] );
+		if ( $baths ) {
+			$where .= $wpdb->prepare( ' AND ecx.bathrooms >= %f', $baths );
+		}
+		foreach ( array(
+			'price_min' => 'ecx.price >= %f',
+			'price_max' => 'ecx.price <= %f',
+			'area_min'  => 'ecx.area >= %f',
+			'area_max'  => 'ecx.area <= %f',
+		) as $key => $sql ) {
+			if ( ! empty( $opts[ $key ] ) ) {
+				$where .= $wpdb->prepare( ' AND ' . $sql, $opts[ $key ] ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- fixed SQL fragments with placeholders.
+			}
+		}
+		// A price range leaves out properties without a price.
+		if ( ! empty( $opts['price_min'] ) || ! empty( $opts['price_max'] ) ) {
+			$where .= ' AND ecx.price > 0';
 		}
 		if ( ! empty( $opts['featured'] ) ) {
-			$clauses['where'] .= ' AND ecx.featured = 1';
+			$where .= ' AND ecx.featured = 1';
 		}
-		$date  = "{$wpdb->posts}.post_date DESC";
-		$order = isset( $opts['order'] ) && in_array( $opts['order'], self::ORDERS, true ) ? $opts['order'] : 'featured';
+		if ( ! empty( $opts['located'] ) || ! empty( $opts['bounds'] ) ) {
+			$where .= ' AND ( ecx.lat <> 0 OR ecx.lng <> 0 )';
+		}
+		if ( ! empty( $opts['bounds'] ) && 4 === count( $opts['bounds'] ) ) {
+			list( $south, $west, $north, $east ) = array_map( 'floatval', $opts['bounds'] );
+			$where                              .= $wpdb->prepare( ' AND ecx.lat BETWEEN %f AND %f', $south, $north );
+			// A box across the 180th meridian has west > east.
+			$where .= $west <= $east
+				? $wpdb->prepare( ' AND ecx.lng BETWEEN %f AND %f', $west, $east )
+				: $wpdb->prepare( ' AND ( ecx.lng >= %f OR ecx.lng <= %f )', $west, $east );
+		}
+		if ( ! empty( $opts['keyword'] ) ) {
+			// Title, excerpt and content, or the listing reference. Not WordPress search (s=), which
+			// would turn an archive into a search results page.
+			$like   = '%' . $wpdb->esc_like( $opts['keyword'] ) . '%';
+			$where .= $wpdb->prepare(
+				" AND ( {$wpdb->posts}.post_title LIKE %s OR {$wpdb->posts}.post_excerpt LIKE %s OR {$wpdb->posts}.post_content LIKE %s OR EXISTS ( SELECT 1 FROM {$wpdb->postmeta} AS ecm WHERE ecm.post_id = {$wpdb->posts}.ID AND ecm.meta_key = %s AND ecm.meta_value = %s ) )",
+				$like,
+				$like,
+				$like,
+				Fields::PREFIX . 'reference',
+				$opts['keyword']
+			);
+		}
+		$clauses['where'] .= $where;
+		$date              = "{$wpdb->posts}.post_date DESC";
+		$order             = isset( $opts['order'] ) && in_array( $opts['order'], self::ORDERS, true ) ? $opts['order'] : 'featured';
 		switch ( $order ) {
 			case 'newest':
 				$clauses['orderby'] = $date;

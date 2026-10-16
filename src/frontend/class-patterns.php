@@ -87,6 +87,21 @@ final class Patterns {
 		$archive = get_post_type_archive_link( 'property' );
 		$archive = $archive ? $archive : home_url( '/property/' );
 		return array(
+			'hero-search'         => array(
+				'title'       => __( 'Hero with property search', 'wp-smart-property' ),
+				'description' => __( 'A large heading and the property search, for the top of a home page.', 'wp-smart-property' ),
+				'content'     => '<!-- wp:group {"align":"full","className":"estatecraft-hero","layout":{"type":"constrained","contentSize":"960px"}} -->' . "\n" . '<div class="wp-block-group alignfull estatecraft-hero">' . "\n"
+					. self::heading( __( 'Find your next home', 'wp-smart-property' ), 1, 'center' )
+					. self::paragraph( __( 'Search houses and apartments for sale and to rent.', 'wp-smart-property' ), 'center' )
+					. '<!-- wp:estatecraft/property-search {"fields":["location","type","status","price","beds"],"more":false} /-->' . "\n"
+					. '</div>' . "\n" . '<!-- /wp:group -->',
+			),
+			'search-page'         => array(
+				'title'       => __( 'Property search page', 'wp-smart-property' ),
+				'description' => __( 'Search filters with results and a map. Choose the page in EstateCraft settings, Pages.', 'wp-smart-property' ),
+				'blockTypes'  => array( 'core/post-content' ),
+				'content'     => '<!-- wp:estatecraft/property-search {"align":"wide"} /-->' . "\n" . '<!-- wp:estatecraft/search-results {"align":"wide"} /-->',
+			),
 			'featured-properties' => array(
 				'title'       => __( 'Featured properties', 'wp-smart-property' ),
 				'description' => __( 'A heading, three featured properties and a link to all properties.', 'wp-smart-property' ),

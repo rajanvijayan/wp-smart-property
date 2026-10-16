@@ -8,6 +8,7 @@
 namespace EstateCraft\Rest;
 
 use EstateCraft\Legacy\Migrator;
+use EstateCraft\Search\Geocode_Queue;
 use EstateCraft\Search\Index;
 use WP_REST_Request;
 use WP_REST_Server;
@@ -21,6 +22,15 @@ final class Status_Controller extends Rest_Controller {
 	 * Register routes.
 	 */
 	public function register_routes() {
+		register_rest_route(
+			$this->namespace,
+			'/geocode/queue',
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'queue_geocoding' ),
+				'permission_callback' => array( $this, 'can_manage' ),
+			)
+		);
 		register_rest_route(
 			$this->namespace,
 			'/status',
@@ -58,11 +68,27 @@ final class Status_Controller extends Rest_Controller {
 		return array(
 			'version'   => ESTATECRAFT_VERSION,
 			'indexed'   => Index::count(),
+			'geocoding' => array(
+				'pending' => Geocode_Queue::pending_count(),
+				'next'    => wp_next_scheduled( Geocode_Queue::CRON ) ? gmdate( 'c', wp_next_scheduled( Geocode_Queue::CRON ) ) : null,
+			),
 			'migration' => array(
 				'done'   => ! Migrator::pending(),
 				'stage'  => $migration['stage'],
 				'report' => array_merge( $migration['report'], array( 'features' => array_keys( $migration['report']['features'] ) ) ),
 			),
+		);
+	}
+
+	/**
+	 * Queue every address without a pin for lookup.
+	 *
+	 * @return array
+	 */
+	public function queue_geocoding() {
+		return array(
+			'queued'  => Geocode_Queue::queue_missing(),
+			'pending' => Geocode_Queue::pending_count(),
 		);
 	}
 

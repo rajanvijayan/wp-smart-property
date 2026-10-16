@@ -24,11 +24,13 @@ Property listings for WordPress, with search, maps, agents and inquiries, and a 
 - **Admin list** with photo, price, rooms and agent columns, price sorting and status/type filters, plus a dashboard widget.
 - **Property pages** for block and classic themes: photo gallery with a full-screen viewer, price and status, key facts, features, details (including custom fields), floor plans, video and virtual tour, an OpenStreetMap map (only the area when the exact address is hidden), open house times, agent contact cards, share and print, and similar properties.
 - **Archives and agent pages:** property archives (also by type, status, location and feature) with featured properties first, agent and agency profiles with their listings, and an agent directory. Templates are editable in the Site Editor; classic themes can override them in `yourtheme/estatecraft/`.
-- **16 blocks** (Property Listings, Featured Property, Agents, Gallery, Map, Details and more) and patterns for home pages.
+- **Search:** filters for keyword (also the listing reference), location, type, sale or rent, price, bedrooms, bathrooms, area, features and custom fields. Results update in place with sorting and page links; the URL is always shareable and Back/Forward work. Without JavaScript the same form and results work as plain pages.
+- **Map search:** list, map, or list and map side by side, with price pins, clustering and "search as I move the map". Properties with a hidden address only ever show (and are only found by) their approximate area.
+- **Automatic map pins:** addresses without a pin are looked up in the background with OpenStreetMap Nominatim, within its usage policy (one request per second, cached).
+- **18 blocks** (Property Search, Search Results, Property Listings, Featured Property, Agents, Gallery, Map, Details and more) and patterns for home pages.
 - **schema.org data** (`RealEstateListing`, `RealEstateAgent`, breadcrumbs), Open Graph tags when no SEO plugin is active, and clean sitemaps.
 
 **Coming in 3.0**
-- Search with filters, shareable URLs and a list/map view on OpenStreetMap, with marker clustering and "search as I move the map".
 - Inquiry and viewing forms, favourites, saved searches with email alerts, a mortgage calculator, privacy tools and spam protection.
 - **Agent portal:** registration, a dashboard, multi-step listing submission with photo uploads and a map pin, moderation, expiry and renewals.
 - Listing packages, with paid packages through WooCommerce when it is installed.

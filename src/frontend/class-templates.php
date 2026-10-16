@@ -163,13 +163,8 @@ final class Templates {
 					)
 				)
 					. self::block( 'core/term-description', array( 'align' => 'wide' ) )
-					. self::block(
-						'property-listings',
-						array(
-							'source' => 'main',
-							'align'  => 'wide',
-						)
-					);
+					. self::block( 'property-search', array( 'align' => 'wide' ) )
+					. self::block( 'search-results', array( 'align' => 'wide' ) );
 			case 'single-estate_agent':
 			case 'single-estate_agency':
 				$agency = 'single-estate_agency' === $name;

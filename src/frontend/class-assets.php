@@ -20,6 +20,7 @@ final class Assets {
 	const STYLE  = 'estatecraft-frontend';
 	const SCRIPT = 'estatecraft-frontend';
 	const MAP    = 'estatecraft-map';
+	const SEARCH = 'estatecraft-search';
 
 	/**
 	 * Hooks.
@@ -61,6 +62,20 @@ final class Assets {
 			)
 		);
 		wp_set_script_translations( self::MAP, 'wp-smart-property' );
+
+		$search = Built::asset( 'search' );
+		wp_register_style( self::SEARCH, ESTATECRAFT_URL . 'build/search.css', array(), $search['version'] );
+		wp_register_script(
+			self::SEARCH,
+			ESTATECRAFT_URL . 'build/search.js',
+			$search['dependencies'],
+			$search['version'],
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
+		);
+		wp_set_script_translations( self::SEARCH, 'wp-smart-property' );
 	}
 
 	/**
@@ -95,6 +110,15 @@ final class Assets {
 		self::style();
 		wp_enqueue_style( self::MAP );
 		wp_enqueue_script( self::MAP );
+	}
+
+	/**
+	 * Search results script (results in place, URL state, the results map).
+	 */
+	public static function search() {
+		self::style();
+		wp_enqueue_style( self::SEARCH );
+		wp_enqueue_script( self::SEARCH );
 	}
 
 	/**

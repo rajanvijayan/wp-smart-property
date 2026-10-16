@@ -75,7 +75,7 @@ jobs:
         run: find . -name '*.php' -not -path './node_modules/*' -not -path './tests/*' -not -path './bin/*' -print0 | xargs -0 -n1 -P4 php -d display_errors=stderr -l > /dev/null
 
       - name: Check built scripts
-        run: for f in settings property-editor blocks frontend property-map; do test -s build/$f.js && test -s build/$f.css && test -s build/$f.asset.php || { echo "::error::build/$f is missing"; exit 1; }; done
+        run: for f in settings property-editor blocks frontend property-map search; do test -s build/$f.js && test -s build/$f.css && test -s build/$f.asset.php || { echo "::error::build/$f is missing"; exit 1; }; done
 
       - name: Smoke-test autoloader
         run: php -r 'require "vendor/autoload.php"; foreach (["EstateCraft\\Plugin", "EstateCraft\\Legacy\\Migrator", "EstateCraft\\Search\\Index"] as $c) { if (!class_exists($c)) { fwrite(STDERR, "missing $c\n"); exit(1); } }'

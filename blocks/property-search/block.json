@@ -1,0 +1,64 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "estatecraft/property-search",
+	"title": "Property Search",
+	"category": "estatecraft",
+	"icon": "search",
+	"description": "Search filters: keyword, location, type, price, rooms and more.",
+	"keywords": [
+		"search",
+		"filter",
+		"property"
+	],
+	"textdomain": "wp-smart-property",
+	"attributes": {
+		"fields": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": [
+				"keyword",
+				"location",
+				"type",
+				"status",
+				"price",
+				"beds",
+				"baths"
+			]
+		},
+		"more": {
+			"type": "boolean",
+			"default": true
+		},
+		"buttonText": {
+			"type": "string",
+			"default": ""
+		},
+		"layout": {
+			"type": "string",
+			"enum": [
+				"bar",
+				"stacked"
+			],
+			"default": "bar"
+		}
+	},
+	"supports": {
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"align": [
+			"wide",
+			"full"
+		]
+	},
+	"editorScript": "estatecraft-blocks",
+	"editorStyle": [
+		"estatecraft-frontend",
+		"estatecraft-blocks-editor"
+	]
+}

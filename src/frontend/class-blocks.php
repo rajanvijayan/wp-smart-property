@@ -42,6 +42,8 @@ final class Blocks {
 			'featured-property' => array( Listing_Blocks::class, 'featured' ),
 			'agents'            => array( Listing_Blocks::class, 'agent_list' ),
 			'agent-profile'     => array( Listing_Blocks::class, 'profile' ),
+			'property-search'   => array( Search_Blocks::class, 'form' ),
+			'search-results'    => array( Search_Blocks::class, 'results' ),
 		);
 	}
 

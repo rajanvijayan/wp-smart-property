@@ -20,6 +20,21 @@ export default function Tools() {
 		load();
 	}, [] );
 
+	const [ queueing, setQueueing ] = useState( false );
+	const [ queued, setQueued ] = useState( null );
+
+	const queueGeocoding = () => {
+		setQueueing( true );
+		setError( null );
+		apiFetch( { path: '/estatecraft/v1/geocode/queue', method: 'POST' } )
+			.then( ( result ) => {
+				setQueued( result.queued );
+				return load();
+			} )
+			.catch( ( e ) => setError( e.message ) )
+			.finally( () => setQueueing( false ) );
+	};
+
 	const rebuild = async () => {
 		setError( null );
 		let offset = 0;
@@ -98,6 +113,62 @@ export default function Tools() {
 								rebuilding
 						  )
 						: __( 'Rebuild search index', 'wp-smart-property' ) }
+				</Button>
+			</section>
+			<section className="estatecraft-settings__section">
+				<h2>
+					{ __( 'Map pins from addresses', 'wp-smart-property' ) }
+				</h2>
+				<p>
+					{ status.geocoding.pending
+						? sprintf(
+								/* translators: %d: number of properties */
+								_n(
+									'%d address is waiting to be looked up.',
+									'%d addresses are waiting to be looked up.',
+									status.geocoding.pending,
+									'wp-smart-property'
+								),
+								status.geocoding.pending
+						  )
+						: __(
+								'No addresses are waiting to be looked up.',
+								'wp-smart-property'
+						  ) }
+				</p>
+				<p className="description">
+					{ __(
+						'Properties with an address but no map pin get one automatically, about ten every five minutes, so the lookup service is not overloaded. Pins placed by hand are never changed.',
+						'wp-smart-property'
+					) }
+				</p>
+				{ queued !== null && (
+					<Notice
+						status="success"
+						onRemove={ () => setQueued( null ) }
+					>
+						{ sprintf(
+							/* translators: %d: number of properties */
+							_n(
+								'%d property was added to the queue.',
+								'%d properties were added to the queue.',
+								queued,
+								'wp-smart-property'
+							),
+							queued
+						) }
+					</Notice>
+				) }
+				<Button
+					variant="secondary"
+					isBusy={ queueing }
+					disabled={ queueing }
+					onClick={ queueGeocoding }
+				>
+					{ __(
+						'Find pins for all addresses without one',
+						'wp-smart-property'
+					) }
 				</Button>
 			</section>
 			<section className="estatecraft-settings__section" id="tools">

@@ -5,14 +5,15 @@
   "description": "EstateCraft \u2013 real estate listings and portal (admin apps, blocks and front-end scripts).",
   "license": "GPL-2.0-or-later",
   "scripts": {
-    "build": "wp-scripts build settings=./assets/src/settings/index.js property-editor=./assets/src/property-editor/index.js blocks=./assets/src/blocks/index.js frontend=./assets/src/frontend/index.js property-map=./assets/src/property-map/index.js --output-path=build",
-    "start": "wp-scripts start settings=./assets/src/settings/index.js property-editor=./assets/src/property-editor/index.js blocks=./assets/src/blocks/index.js frontend=./assets/src/frontend/index.js property-map=./assets/src/property-map/index.js --output-path=build",
+    "build": "wp-scripts build settings=./assets/src/settings/index.js property-editor=./assets/src/property-editor/index.js blocks=./assets/src/blocks/index.js frontend=./assets/src/frontend/index.js property-map=./assets/src/property-map/index.js search=./assets/src/search/index.js --output-path=build",
+    "start": "wp-scripts start settings=./assets/src/settings/index.js property-editor=./assets/src/property-editor/index.js blocks=./assets/src/blocks/index.js frontend=./assets/src/frontend/index.js property-map=./assets/src/property-map/index.js search=./assets/src/search/index.js --output-path=build",
     "lint:js": "wp-scripts lint-js assets/src",
     "lint:css": "wp-scripts lint-style 'assets/src/**/*.scss'",
     "test:unit": "wp-scripts test-unit-js --passWithNoTests assets/src"
   },
   "dependencies": {
-    "leaflet": "1.9.4"
+    "leaflet": "1.9.4",
+    "leaflet.markercluster": "^1.5.3"
   },
   "devDependencies": {
     "@wordpress/scripts": "27.9.0",

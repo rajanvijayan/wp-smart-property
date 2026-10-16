@@ -7,6 +7,7 @@
 
 namespace EstateCraft\Search;
 
+use EstateCraft\Frontend\View;
 use EstateCraft\Properties\Fields;
 use EstateCraft\Properties\Property_Type;
 use WP_Post;
@@ -21,9 +22,11 @@ final class Index {
 	/**
 	 * Bump when the table changes (dbDelta runs again).
 	 */
-	const SCHEMA = 1;
+	const SCHEMA = 2;
 
 	const OPTION = 'estatecraft_index_schema';
+
+	const CRON = 'estatecraft_reindex';
 
 	/**
 	 * Properties changed in this request, written once at shutdown.
@@ -53,6 +56,7 @@ final class Index {
 		add_action( 'deleted_post', array( self::class, 'remove' ) );
 		add_action( 'transition_post_status', array( self::class, 'on_status' ), 20, 3 );
 		add_action( 'shutdown', array( self::class, 'flush' ) );
+		add_action( self::CRON, array( self::class, 'rebuild_batch' ) );
 	}
 
 	/**
@@ -119,6 +123,28 @@ final class Index {
 	public static function maybe_install() {
 		if ( (int) get_option( self::OPTION, 0 ) < self::SCHEMA ) {
 			self::install();
+			// Sites updated in place have properties the index has not seen yet.
+			self::schedule_rebuild();
+		}
+	}
+
+	/**
+	 * Rebuild the whole index in the background, 200 properties per cron run.
+	 */
+	public static function schedule_rebuild() {
+		wp_clear_scheduled_hook( self::CRON );
+		wp_schedule_single_event( time(), self::CRON, array( 0 ) );
+	}
+
+	/**
+	 * One background rebuild batch; schedules the next.
+	 *
+	 * @param int $offset First property.
+	 */
+	public static function rebuild_batch( $offset = 0 ) {
+		$offset = absint( $offset );
+		if ( self::rebuild( $offset, 200 ) >= 200 ) {
+			wp_schedule_single_event( time(), self::CRON, array( $offset + 200 ) );
 		}
 	}
 
@@ -131,6 +157,8 @@ final class Index {
 	public static function row( WP_Post $post ) {
 		$listing = wp_get_object_terms( $post->ID, 'property_status', array( 'fields' => 'slugs' ) );
 		$expires = Fields::get( $post->ID, 'expires' );
+		// Searches and maps only ever see the approximate area of a property with a hidden address.
+		$point = View::map_point( $post->ID );
 		return array(
 			'post_id'      => $post->ID,
 			'post_status'  => $post->post_status,
@@ -142,8 +170,8 @@ final class Index {
 			'area'         => Fields::get( $post->ID, 'area' ),
 			'land_area'    => Fields::get( $post->ID, 'land_area' ),
 			'year_built'   => min( 65535, Fields::get( $post->ID, 'year_built' ) ),
-			'lat'          => Fields::get( $post->ID, 'lat' ),
-			'lng'          => Fields::get( $post->ID, 'lng' ),
+			'lat'          => $point ? $point['lat'] : 0,
+			'lng'          => $point ? $point['lng'] : 0,
 			'featured'     => Fields::get( $post->ID, 'featured' ) ? 1 : 0,
 			'author'       => (int) $post->post_author,
 			'published'    => '0000-00-00 00:00:00' !== $post->post_date_gmt ? $post->post_date_gmt : $post->post_date,

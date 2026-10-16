@@ -18,8 +18,10 @@ use EstateCraft\Properties\Agent_Link;
 use EstateCraft\Properties\Fields;
 use EstateCraft\Properties\Property_Type;
 use EstateCraft\Properties\Taxonomies;
+use EstateCraft\Rest\Search_Controller;
 use EstateCraft\Rest\Settings_Controller;
 use EstateCraft\Rest\Status_Controller;
+use EstateCraft\Search\Geocode_Queue;
 use EstateCraft\Search\Index;
 
 /**
@@ -54,6 +56,7 @@ final class Plugin {
 		add_action( 'init', array( self::class, 'upgrade' ), 20 );
 		add_action( 'rest_api_init', array( self::class, 'register_routes' ) );
 		Index::register();
+		Geocode_Queue::register();
 		Migrator::register();
 		Post_Grid_Bridge::load();
 		Agent_Link::register();
@@ -95,6 +98,7 @@ final class Plugin {
 	public static function register_routes() {
 		( new Status_Controller() )->register_routes();
 		( new Settings_Controller() )->register_routes();
+		( new Search_Controller() )->register_routes();
 	}
 
 	/**
@@ -115,6 +119,8 @@ final class Plugin {
 	 */
 	public static function deactivate() {
 		wp_clear_scheduled_hook( Migrator::CRON );
+		wp_clear_scheduled_hook( Index::CRON );
+		wp_clear_scheduled_hook( Geocode_Queue::CRON );
 		flush_rewrite_rules();
 	}
 }
