@@ -1,0 +1,39 @@
+name: Update WordPress.org readme/assets
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'readme.txt'
+      - '.wordpress-org/**'
+
+jobs:
+  assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      # A readme for an unreleased version (its Stable tag is not in SVN yet) must not reach trunk:
+      # WordPress.org would serve trunk, which still holds the previous release. The tag deploy
+      # publishes readme.txt and the assets when that version is released.
+      - name: Check the Stable tag is released
+        id: stable
+        run: |
+          tag=$(grep -m1 -i '^Stable tag:' readme.txt | sed 's/^[^:]*:[[:space:]]*//' | tr -d '\r[:space:]')
+          if [ -n "$tag" ] && curl -sfI "https://plugins.svn.wordpress.org/wp-smart-property/tags/${tag}/" > /dev/null; then
+            echo "released=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::Stable tag '${tag}' is not released yet; skipping. The tag deploy will publish readme.txt and assets."
+            echo "released=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Push readme.txt and assets to SVN
+        if: steps.stable.outputs.released == 'true'
+        uses: 10up/action-wordpress-plugin-asset-update@stable
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: wp-smart-property
+          IGNORE_OTHER_FILES: true

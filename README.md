@@ -1,49 +1,28 @@
 # WP Smart Property
 
-**WP Smart Property** is a comprehensive WordPress plugin designed to manage property listings with ease. This plugin allows users to create, edit, and display property listings on their WordPress website. It provides an intuitive interface for managing property-related taxonomies and meta information, making it perfect for real estate agencies, property managers, and individual property owners.
+Real estate property listings for WordPress: a `property` post type with type, category, city, bedroom, bathroom and country taxonomies, and property grids through the `[post_grid id]` shortcode.
 
-## Features
+**[WordPress.org listing](https://wordpress.org/plugins/wp-smart-property/)**
 
-- Custom post type for properties.
-- Dynamic creation of property taxonomies.
-- Dynamic creation of property meta information.
-- User-friendly property setup page in the WordPress admin dashboard.
+> 2.0.x receives security fixes. Version 3.0 is a rewrite, released as **EstateCraft**; see `docs/ROADMAP-3.0.md` on the `plan/3.0` branch.
 
-## Installation
+## Requirements
 
-1. **Download the Plugin:**
-   Download the latest version of the plugin from the [GitHub releases page](https://github.com/yourusername/wp-smart-property/releases).
+| | |
+|---|---|
+| WordPress | 4.7 or later (tested up to 7.1) |
+| PHP | 5.6 or later (tested on 8.3) |
 
-2. **Upload to WordPress:**
-   Upload the plugin files to the `/wp-content/plugins/wp-smart-property` directory or install the plugin through the WordPress plugins screen directly.
+## Development
 
-3. **Activate the Plugin:**
-   Activate the plugin through the 'Plugins' screen in WordPress.
+```bash
+composer install                     # test tools
+bin/install-wp-tests.sh wordpress_test root '' localhost latest
+WP_TESTS_DIR=/tmp/wordpress-tests-lib vendor/bin/phpunit --group ajax
+```
 
-4. **Configure the Plugin:**
-   Go to `Property Setup` in the WordPress admin menu and configure your property taxonomies and meta information.
-
-## Usage
-
-1. **Add New Property:**
-   Navigate to `Properties` -> `Add New` to add a new property.
-
-2. **Manage Taxonomies and Meta Information:**
-   Go to `Property Setup` in the WordPress admin menu to add or remove property taxonomies and meta information. Enter comma-separated values for both taxonomies and meta information.
-
-3. **Save and View Properties:**
-   Save your properties and view them on your site. You can also use the taxonomies and meta information to filter and display properties as needed.
-
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request or open an issue.
-
-## Author
-
-**Rajan Vijayan**  
-Website: [rajanvijayan.com](https://rajanvijayan.com)
+Releases are deployed to WordPress.org by GitHub Actions when a version tag is pushed. See [RELEASING.md](RELEASING.md).
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+GPLv2 or later. The property grid is based on the [Post Grid](https://wordpress.org/plugins/post-grid/) plugin by PickPlugins (GPL).
