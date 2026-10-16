@@ -7,10 +7,10 @@
 
 namespace EstateCraft\Admin;
 
-use EstateCraft\Inquiries\Inquiry_Type;
 use EstateCraft\Legacy\Migrator;
 use EstateCraft\Properties\Fields;
 use EstateCraft\Properties\Property_Type;
+use EstateCraft\Search\Geocode_Queue;
 
 /**
  * Admin entry point.
@@ -79,8 +79,15 @@ final class Admin {
 			'estatecraft-settings',
 			'estateCraftSettings',
 			array(
-				'pages'   => $pages,
-				'version' => ESTATECRAFT_VERSION,
+				'pages'    => $pages,
+				'version'  => ESTATECRAFT_VERSION,
+				/**
+				 * Filters the settings sections shown (emails, portal and privacy arrive with the
+				 * features that use them).
+				 *
+				 * @param string[] $sections Section keys.
+				 */
+				'sections' => array_values( apply_filters( 'estatecraft_settings_sections', array( 'general', 'pages', 'maps', 'fields', 'tools' ) ) ),
 			)
 		);
 	}
@@ -99,7 +106,6 @@ final class Admin {
 	 */
 	public static function dashboard_widget() {
 		$counts   = wp_count_posts( Property_Type::POST_TYPE );
-		$inquiry  = wp_count_posts( Inquiry_Type::POST_TYPE );
 		$expiring = get_posts(
 			array(
 				'post_type'   => Property_Type::POST_TYPE,
@@ -120,7 +126,7 @@ final class Admin {
 			array( __( 'Published', 'wp-smart-property' ), (int) $counts->publish, admin_url( 'edit.php?post_type=property&post_status=publish' ) ),
 			array( __( 'Waiting for review', 'wp-smart-property' ), (int) $counts->pending, admin_url( 'edit.php?post_type=property&post_status=pending' ) ),
 			array( __( 'Expiring in 14 days', 'wp-smart-property' ), count( $expiring ), admin_url( 'edit.php?post_type=property' ) ),
-			array( __( 'Inquiries', 'wp-smart-property' ), isset( $inquiry->private ) ? (int) $inquiry->private + (int) $inquiry->publish : 0, admin_url( 'edit.php?post_type=' . Inquiry_Type::POST_TYPE ) ),
+			array( __( 'Waiting for a map pin', 'wp-smart-property' ), Geocode_Queue::pending_count(), admin_url( 'edit.php?post_type=property&page=' . self::SETTINGS_SLUG . '#tools' ) ),
 		);
 		echo '<ul class="estatecraft-dashboard" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0">';
 		foreach ( $rows as $row ) {

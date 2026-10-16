@@ -232,6 +232,16 @@ class Test_Search extends EstateCraft_TestCase {
 		$this->assertCount( 3, rest_get_server()->dispatch( $request )->get_data()['markers'] );
 	}
 
+	public function test_similar_properties_leave_out_the_property_itself() {
+		$similar = EstateCraft\Frontend\Query::listings(
+			array(
+				'similar' => $this->p['family'],
+				'count'   => 1,
+			)
+		);
+		$this->assertSame( array( $this->p['quote'] ), wp_list_pluck( $similar->posts, 'ID' ), 'Same type and status, not itself.' );
+	}
+
 	public function test_short_prices() {
 		$id = $this->p['cheap'];
 		foreach ( array(

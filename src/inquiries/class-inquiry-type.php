@@ -28,7 +28,8 @@ final class Inquiry_Type {
 					'edit_item'     => __( 'Inquiry', 'wp-smart-property' ),
 				),
 				'public'              => false,
-				'show_ui'             => true,
+				// The inquiries screen arrives with the inquiry forms.
+				'show_ui'             => (bool) apply_filters( 'estatecraft_inquiries_ui', false ),
 				'show_in_menu'        => 'edit.php?post_type=property',
 				'show_in_rest'        => false,
 				'exclude_from_search' => true,

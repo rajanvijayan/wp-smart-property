@@ -21,7 +21,7 @@ import './index.scss';
 
 const config = window.estateCraftSettings || { pages: [] };
 
-const TABS = [
+const ALL_TABS = [
 	{ name: 'general', title: __( 'General', 'wp-smart-property' ) },
 	{ name: 'pages', title: __( 'Pages', 'wp-smart-property' ) },
 	{ name: 'maps', title: __( 'Maps', 'wp-smart-property' ) },
@@ -31,6 +31,17 @@ const TABS = [
 	{ name: 'fields', title: __( 'Custom fields', 'wp-smart-property' ) },
 	{ name: 'tools', title: __( 'Tools', 'wp-smart-property' ) },
 ];
+
+// Sections switch on as the features behind them ship (emails, portal and privacy come with
+// inquiries and the agent portal).
+const sections = config.sections || [
+	'general',
+	'pages',
+	'maps',
+	'fields',
+	'tools',
+];
+const TABS = ALL_TABS.filter( ( tab ) => sections.includes( tab.name ) );
 
 const SEPARATORS = [
 	{ value: ',', label: __( 'Comma (,)', 'wp-smart-property' ) },
@@ -140,7 +151,7 @@ function Pages( { value, set } ) {
 			label: page.title || '#' + page.id,
 		} ) ),
 	];
-	const rows = [
+	const all = [
 		[
 			'search',
 			__( 'Property search', 'wp-smart-property' ),
@@ -160,6 +171,9 @@ function Pages( { value, set } ) {
 			__( 'The listing submission form.', 'wp-smart-property' ),
 		],
 	];
+	const rows = all.filter(
+		( [ key ] ) => key === 'search' || sections.includes( 'portal' )
+	);
 	return (
 		<Section>
 			<div className="estatecraft-settings__stack">

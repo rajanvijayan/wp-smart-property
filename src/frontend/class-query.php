@@ -210,8 +210,9 @@ final class Query {
 			}
 		}
 		if ( $args['similar'] ) {
-			$id                    = (int) $args['similar'];
-			$query['post__not_in'] = array( $id );
+			$id = (int) $args['similar'];
+			// One extra, so the property itself can be dropped afterwards (cheaper than post__not_in).
+			++$query['posts_per_page'];
 			foreach ( array( 'property_type', 'property_status' ) as $taxonomy ) {
 				$ids = wp_get_object_terms( $id, $taxonomy, array( 'fields' => 'ids' ) );
 				if ( $ids && ! is_wp_error( $ids ) ) {
@@ -248,7 +249,23 @@ final class Query {
 		 * @param array $query WP_Query arguments.
 		 * @param array $args  Block options.
 		 */
-		return new WP_Query( apply_filters( 'estatecraft_listings_query', $query, $args ) );
+		$result = new WP_Query( apply_filters( 'estatecraft_listings_query', $query, $args ) );
+		if ( $args['similar'] ) {
+			$result->posts      = array_slice(
+				array_values(
+					array_filter(
+						$result->posts,
+						static function ( $post ) use ( $args ) {
+							return (int) $post->ID !== (int) $args['similar'];
+						}
+					)
+				),
+				0,
+				max( 1, (int) $args['count'] )
+			);
+			$result->post_count = count( $result->posts );
+		}
+		return $result;
 	}
 
 	/**

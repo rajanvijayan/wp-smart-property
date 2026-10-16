@@ -77,7 +77,7 @@ export default function Agents( { ids, known, rest, onChange, onKnown } ) {
 			) : (
 				<p className="description">
 					{ __(
-						'No agent yet. Inquiries go to the site’s email address until you add one.',
+						'No agent yet. Agents are shown with their contact details on the property page.',
 						'wp-smart-property'
 					) }
 				</p>
