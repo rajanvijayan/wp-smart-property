@@ -100,7 +100,17 @@ final class Blocks {
 			return '';
 		}
 		Assets::style();
-		$attrs = get_block_wrapper_attributes( array_merge( array( 'class' => $css_class ), $extra ) );
+		$extra = array_merge( array( 'class' => $css_class ), $extra );
+		if ( ! empty( \WP_Block_Supports::$block_to_render ) ) {
+			$attrs = get_block_wrapper_attributes( $extra );
+		} else {
+			// Called outside block rendering (WordPress 6.5 does not check for that).
+			$attrs = '';
+			foreach ( $extra as $name => $value ) {
+				$attrs .= ' ' . $name . '="' . esc_attr( $value ) . '"';
+			}
+			$attrs = ltrim( $attrs );
+		}
 		return '<' . $tag . ' ' . $attrs . '>' . $html . '</' . $tag . '>';
 	}
 
