@@ -521,6 +521,9 @@ function post_grid_get_media($media_source, $featured_img_size, $thumb_linked){
 function post_grid_remove_content_layout_ajax(){
 	
 	if(current_user_can('manage_options')){
+
+		check_ajax_referer( 'post_grid_admin' );
+
 		
 		$layout_id = sanitize_text_field($_POST['layout_id']);
 		
@@ -531,7 +534,7 @@ function post_grid_remove_content_layout_ajax(){
 		
 		}
 	
-	die();
+	wp_die();
 	
 	}
 
@@ -544,6 +547,9 @@ add_action('wp_ajax_post_grid_remove_content_layout_ajax', 'post_grid_remove_con
 function post_grid_reset_content_layouts(){
 	
 	if(current_user_can('manage_options')){
+
+		check_ajax_referer( 'post_grid_admin' );
+
 		
 		$class_post_grid_functions = new class_post_grid_functions();
 		$layout_content_list = $class_post_grid_functions->layout_content_list();
@@ -551,7 +557,7 @@ function post_grid_reset_content_layouts(){
 		
 		}
 	
-	die();
+	wp_die();
 	}
 
 
@@ -672,6 +678,9 @@ function post_grid_posttypes($post_types){
 function post_grid_layout_content_ajax(){
 	
 	if(current_user_can('manage_options')){
+
+		check_ajax_referer( 'post_grid_admin' );
+
 
 		$layout_key = sanitize_text_field($_POST['layout']);
 		
@@ -865,7 +874,7 @@ function post_grid_layout_content_ajax(){
 	
 
 	
-	die();
+	wp_die();
 	
 	}
 	
@@ -885,6 +894,9 @@ function post_grid_layout_add_elements(){
 	
 	
 	if(current_user_can('manage_options')){
+
+		check_ajax_referer( 'post_grid_admin' );
+
 
 		
 		$item_key = sanitize_text_field($_POST['item_key']);
@@ -1136,7 +1148,7 @@ function post_grid_layout_add_elements(){
 		}
 
 	
-	die();
+	wp_die();
 	
 	}
 	
@@ -1147,6 +1159,9 @@ add_action('wp_ajax_post_grid_layout_add_elements', 'post_grid_layout_add_elemen
 function post_grid_get_categories($post_id){
 	
 	if(current_user_can('manage_options')){
+
+		check_ajax_referer( 'post_grid_admin' );
+
 
 		if(isset($_POST['post_types'])){
 			
@@ -1258,7 +1273,7 @@ function post_grid_get_categories($post_id){
 		
 		
 	if(isset($_POST['post_types'])){
-		die();
+		wp_die();
 		}
 	
 	
@@ -1270,11 +1285,25 @@ add_action('wp_ajax_post_grid_get_categories', 'post_grid_get_categories');
 
 
 
+/**
+ * Whether a grid may be rendered for anyone: a published post_grid post.
+ *
+ * @param int $post_id Grid ID.
+ * @return bool
+ */
+function post_grid_is_public_grid( $post_id ) {
+	$post = get_post( $post_id );
+	return $post && 'post_grid' === $post->post_type && 'publish' === $post->post_status && '' === $post->post_password;
+}
+
 function post_grid_ajax_load_more(){
 		
 		$html = '';
 		
-		$post_id = sanitize_text_field($_POST['grid_id']);
+		$post_id = isset( $_POST['grid_id'] ) ? absint( $_POST['grid_id'] ) : 0;
+		if ( ! post_grid_is_public_grid( $post_id ) ) {
+			wp_die();
+		}
 		$per_page = sanitize_text_field($_POST['per_page']);
 		$terms = sanitize_text_field($_POST['terms']);
 		
@@ -1321,7 +1350,7 @@ function post_grid_ajax_load_more(){
 		
 		echo $html;
 		
-		die();
+		wp_die();
 		
 	}
 
@@ -1338,7 +1367,10 @@ add_action('wp_ajax_nopriv_post_grid_ajax_load_more', 'post_grid_ajax_load_more'
 function post_grid_ajax_search(){
 		
 		$html = '';
-		$post_id = sanitize_text_field($_POST['grid_id']);
+		$post_id = isset( $_POST['grid_id'] ) ? absint( $_POST['grid_id'] ) : 0;
+		if ( ! post_grid_is_public_grid( $post_id ) ) {
+			wp_die();
+		}
 
 		include post_grid_plugin_dir.'/grid-items/variables.php';
 		
@@ -1370,7 +1402,7 @@ function post_grid_ajax_search(){
 		
 		echo $html;
 		
-		die();
+		wp_die();
 		
 	}
 
@@ -1384,6 +1416,9 @@ function post_grid_export_content_layouts(){
 	
 	
 	if(current_user_can('manage_options')){
+
+		check_ajax_referer( 'post_grid_admin' );
+
 		
 		
 		$upload_dir = wp_upload_dir();
@@ -1414,7 +1449,7 @@ function post_grid_export_content_layouts(){
 		}
 
 	
-	die();
+	wp_die();
 	}
 
 
@@ -1426,16 +1461,24 @@ add_action('wp_ajax_post_grid_export_content_layouts', 'post_grid_export_content
 
 
 function post_grid_ajax_remove_export_content_layout(){
-	
-	if(current_user_can('manage_options')){
-		
-		$file_url = sanitize_text_field($_POST['file_url']);
-		
-		unlink($file_url);
-		
-		}
 
-	die();
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( '', '', array( 'response' => 403 ) );
+	}
+	check_ajax_referer( 'post_grid_admin' );
+
+	// Only a file name is accepted, and only an exported layout file in uploads/post-grid.
+	$file_name = isset( $_POST['file_name'] ) ? sanitize_file_name( wp_unslash( $_POST['file_name'] ) ) : '';
+	if ( ! preg_match( '/^export-layout-content-[A-Za-z0-9-]+\.txt$/', $file_name ) ) {
+		wp_die( '', '', array( 'response' => 400 ) );
+	}
+	$upload_dir = wp_upload_dir();
+	$file       = trailingslashit( $upload_dir['basedir'] ) . 'post-grid/' . $file_name;
+	if ( is_file( $file ) ) {
+		wp_delete_file( $file );
+	}
+
+	wp_die();
 	}
 
 

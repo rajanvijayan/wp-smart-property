@@ -27,23 +27,29 @@ class propertyMetaBox {
 		if ( ! isset( $_POST['property_meta_box_nonce'] ) )
 			return $post_id;
 
-		$nonce = $_POST['property_meta_box_nonce'];
+		$nonce = sanitize_text_field( wp_unslash( $_POST['property_meta_box_nonce'] ) );
 		if ( ! wp_verify_nonce( $nonce, 'property_meta_box' ) )
 			return $post_id;
 
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
 			return $post_id;
-		if ( 'page' == $_POST['post_type'] ) {
+		if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
 			if ( ! current_user_can( 'edit_page', $post_id ) )
 				return $post_id;
 		} else {
 			if ( ! current_user_can( 'edit_post', $post_id ) )
 				return $post_id;
 		}
-		//$mydata = sanitize_text_field( $_POST['myplugin_new_field'] );
-		if ( isset( $_POST['property_additional_field'] ) ) {
-			foreach( $_POST['property_additional_field'] as $key => $value ){
-				update_post_meta( $post_id, $key, $value );
+		// Only the two fields this box shows are saved, and only on the post types it appears on.
+		if ( ! in_array( get_post_type( $post_id ), array( 'post', 'property' ), true ) ) {
+			return $post_id;
+		}
+		if ( isset( $_POST['property_additional_field'] ) && is_array( $_POST['property_additional_field'] ) ) {
+			$fields = wp_unslash( $_POST['property_additional_field'] );
+			foreach ( array( 'property_address', 'admin_notes' ) as $key ) {
+				if ( isset( $fields[ $key ] ) && is_string( $fields[ $key ] ) ) {
+					update_post_meta( $post_id, $key, sanitize_textarea_field( $fields[ $key ] ) );
+				}
 			}
 		}
 		//update_post_meta( $post_id, '_my_meta_value_key', $mydata );

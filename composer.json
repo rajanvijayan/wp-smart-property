@@ -1,0 +1,13 @@
+{
+    "name": "rajanvijayan/wp-smart-property",
+    "description": "Real estate property listings for WordPress.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "yoast/phpunit-polyfills": "^2.0"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

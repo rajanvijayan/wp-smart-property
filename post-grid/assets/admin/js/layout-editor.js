@@ -25,7 +25,7 @@ jQuery(document).ready(function($)
 				type: 'POST',
 				context: this,
 				url:post_grid_ajax.post_grid_ajaxurl,
-				data: {"action": "post_grid_layout_add_elements", "item_key":item_key,"unique_id":unique_id,"layout":layout},
+				data: {"action": "post_grid_layout_add_elements", "_ajax_nonce":post_grid_ajax.nonce, "item_key":item_key,"unique_id":unique_id,"layout":layout},
 				success: function(data)
 						{	
 

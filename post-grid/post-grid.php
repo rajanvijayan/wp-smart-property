@@ -124,7 +124,7 @@ class PostGrid{
 		//wp_enqueue_script('jquery-ui-droppable');
 		
 		wp_enqueue_script('post_grid_admin_js', plugins_url( 'assets/admin/js/scripts-new.js' , __FILE__ ) , array( 'jquery' ));
-		wp_localize_script( 'post_grid_admin_js', 'post_grid_ajax', array( 'post_grid_ajaxurl' => admin_url( 'admin-ajax.php')));
+		wp_localize_script( 'post_grid_admin_js', 'post_grid_ajax', array( 'post_grid_ajaxurl' => admin_url( 'admin-ajax.php'), 'nonce' => wp_create_nonce( 'post_grid_admin' ) ) );
 
 		wp_enqueue_style('post_grid_admin_style', post_grid_plugin_url.'assets/admin/css/style-new.css');
 

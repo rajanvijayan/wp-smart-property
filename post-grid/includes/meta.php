@@ -75,6 +75,12 @@ function meta_boxes_post_grid_input( $post ) {
 	
 	
 	$post_grid_meta_options = get_post_meta( $post->ID, 'post_grid_meta_options', true );
+
+	// Defaults for settings that older grids may not have stored.
+	$slider_navs         = 'true';
+	$slider_navs_positon = 'middle';
+	$slider_dots         = 'true';
+	$slider_dots_style   = 'round';
 	
 
 	if(!empty($post_grid_meta_options['post_types'])){

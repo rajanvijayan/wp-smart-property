@@ -54,7 +54,7 @@ class WPSMPR_Register_Post{
 			'hierarchical' => false,
 			'menu_position' => null,
 			'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
-			'menu_icon' => WP_PLUGIN_URL .'/wp-smart-property/assets/image/icon.png'
+			'menu_icon' => plugins_url( 'assets/image/icon.png', dirname( __FILE__ ) )
 		); 
 
 		register_post_type( 'property', apply_filters( 'wp_smart_property_register_post_type_property', $args) );

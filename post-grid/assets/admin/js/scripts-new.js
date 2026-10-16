@@ -244,7 +244,7 @@ jQuery(document).ready(function($)
 					type: 'POST',
 					context: this,
 					url: post_grid_ajax.post_grid_ajaxurl,
-					data: {"action": "post_grid_export_content_layouts",},
+					data: {"action": "post_grid_export_content_layouts","_ajax_nonce":post_grid_ajax.nonce,},
 					success: function(data)
 							{	
 								$(this).html('Export Done!');
@@ -260,7 +260,7 @@ jQuery(document).ready(function($)
 		$(document).on('click', '.post-grid-settings .remove_export_content_layout', function()
 			{
 
-				var file_url = $(this).attr('file-url');
+				var file_name = $(this).attr('file-name');
 				
 				if(confirm('Do you really want to remove ?')){
 					
@@ -271,7 +271,7 @@ jQuery(document).ready(function($)
 					type: 'POST',
 					url: post_grid_ajax.post_grid_ajaxurl,
 					context:this,
-					data: {"action": "post_grid_ajax_remove_export_content_layout","file_url":file_url},
+					data: {"action": "post_grid_ajax_remove_export_content_layout","_ajax_nonce":post_grid_ajax.nonce,"file_name":file_name},
 					success: function(data)
 							{	
 								//alert('Deleted');
@@ -299,7 +299,7 @@ jQuery(document).ready(function($)
 					type: 'POST',
 					url: post_grid_ajax.post_grid_ajaxurl,
 					context:this,
-					data: {"action": "post_grid_remove_content_layout_ajax","layout_id":layout_id},
+					data: {"action": "post_grid_remove_content_layout_ajax","_ajax_nonce":post_grid_ajax.nonce,"layout_id":layout_id},
 					success: function(data)
 							{	
 								$(this).parent().remove();
@@ -331,7 +331,7 @@ jQuery(document).ready(function($)
 					type: 'POST',
 					context: this,
 					url: post_grid_ajax.post_grid_ajaxurl,
-					data: {"action": "post_grid_reset_content_layouts",},
+					data: {"action": "post_grid_reset_content_layouts","_ajax_nonce":post_grid_ajax.nonce,},
 					success: function(data)
 							{	
 								$(this).html('Reset Done!');
@@ -388,7 +388,7 @@ jQuery(document).ready(function($)
 					{
 				type: 'POST',
 				url: post_grid_ajax.post_grid_ajaxurl,
-				data: {"action": "post_grid_layout_content_ajax","layout":layout},
+				data: {"action": "post_grid_layout_content_ajax","_ajax_nonce":post_grid_ajax.nonce,"layout":layout},
 				success: function(data)
 						{	
 							//jQuery(".layout-content").html(data);
@@ -427,7 +427,7 @@ jQuery(document).ready(function($)
 					{
 				type: 'POST',
 				url: post_grid_ajax.post_grid_ajaxurl,
-				data: {"action": "post_grid_get_categories","post_types":post_types,"post_id":post_id},
+				data: {"action": "post_grid_get_categories","_ajax_nonce":post_grid_ajax.nonce,"post_types":post_types,"post_id":post_id},
 				success: function(data)
 						{	
 

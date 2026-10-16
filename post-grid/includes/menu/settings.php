@@ -75,7 +75,7 @@ if ( ! defined('ABSPATH')) exit;  // if direct access
 									
 									$filelink= $baseurl."/post-grid/".$filename;
 									
-									echo ($i+1).'. <a target="_blank" href="'.$filelink.'" >'.$filename.'</a> <span file-url="'.$basedir."/post-grid/".$filename.'" class="remove_export_content_layout">Delete</span><br />';
+									echo ($i+1).'. <a target="_blank" href="'.esc_url($filelink).'" >'.esc_html($filename).'</a> <span file-name="'.esc_attr($filename).'" class="remove_export_content_layout">Delete</span><br />';
 
 									$i++;
 								}
@@ -97,11 +97,14 @@ if ( ! defined('ABSPATH')) exit;  // if direct access
 					<?php
                     
 					$post_grid_layout_content = get_option('post_grid_layout_content');
+					if ( ! is_array( $post_grid_layout_content ) ) {
+						$post_grid_layout_content = array();
+					}
 
 
                     foreach($post_grid_layout_content as $layout_key=>$layout_info){
 						?>
-                        <li><span class="remove-layout" layout-id="<?php echo $layout_key; ?>" ><i class="fa fa-times"></i></span><b><?php echo $layout_key; ?></b></li>
+                        <li><span class="remove-layout" layout-id="<?php echo esc_attr( $layout_key ); ?>" ><i class="fa fa-times"></i></span><b><?php echo esc_html( $layout_key ); ?></b></li>
                         <?php
 						
 						}

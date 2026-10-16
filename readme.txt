@@ -1,12 +1,13 @@
 === Powerful and Simple Property Responsive Listing plugin ===
 
 Contributors: rajanit2000
-Tags: Real Estate, Property, Real Estate Property, Property Search, Property Listing, Rent and Lease, Home for sale, real estate plugin for wordpress, property plugin for wordpress, wp property, Grid View, Responsive Property
-Requires at least: 3.8 or higher
-Tested up to: 4.7.3
-Stable tag: 1.7.2
+Tags: real estate, property, property listing, property search, real estate listings
+Requires at least: 4.7
+Tested up to: 7.1
+Requires PHP: 5.6
+Stable tag: 2.0.1
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 This is Real Estate property management plugin with smart admin control with Grid layout output options
 
@@ -74,6 +75,18 @@ Plugin PickPlugins Team.
 * Update: All codes to OOPS 
 * Remove: Property search Widget
 
+= 2.0.1 =
+
+* Security: deleting an exported layout file now only accepts an export file name, and every grid admin action checks a security token. Please update.
+* Security: the property information box saves only its address and notes fields, sanitized.
+* Security: grid search and "load more" only use published grids, and list unpublished posts only for people allowed to read them.
+* Fix: no conflict when the Post Grid plugin is active as well.
+* Fix: PHP warnings in the grid editor and settings screens on PHP 8.
+* Tested with WordPress 7.1 and PHP 8.3.
+
 == Upgrade Notice ==
+
+= 2.0.1 =
+Security release. Please update.
 
 The current version of WP Smart Property requires WordPress 3.0 or higher. If you use older version of WordPress, you need to upgrade WordPress first.

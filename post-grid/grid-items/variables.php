@@ -63,6 +63,11 @@ if ( ! defined('ABSPATH')) exit;  // if direct access
 	else{
 		$post_status = 'publish';	
 		}
+
+	// Drafts, private and scheduled posts are only listed for people allowed to read them.
+	if ( ! current_user_can( 'read_private_posts' ) ) {
+		$post_status = 'publish';
+	}
 	
 	
 	
