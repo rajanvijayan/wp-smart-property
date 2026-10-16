@@ -1,0 +1,31 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "estatecraft/property-actions",
+	"title": "Property Share and Print",
+	"category": "estatecraft",
+	"icon": "share",
+	"description": "Share and print buttons.",
+	"keywords": [
+		"property",
+		"real estate"
+	],
+	"textdomain": "wp-smart-property",
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"editorScript": "estatecraft-blocks",
+	"editorStyle": [
+		"estatecraft-frontend",
+		"estatecraft-blocks-editor"
+	],
+	"usesContext": [
+		"postId",
+		"postType"
+	]
+}

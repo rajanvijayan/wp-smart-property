@@ -6,23 +6,79 @@ on:
   pull_request:
 
 jobs:
-  lint:
+  phpcs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+          coverage: none
+
+      - run: composer install --no-progress --prefer-dist --no-interaction
+
+      - name: PHPCS (WordPress Coding Standards)
+        run: composer lint
+
+  js:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: ESLint
+        run: npm run lint:js
+
+      - name: Stylelint
+        run: npm run lint:css
+
+      - name: Build
+        run: npm run build
+
+  build:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        # Requires PHP 5.6; the WordPress.org SVN hook rejects any file that fails php -l.
-        php: ['5.6', '7.4', '8.1', '8.3', '8.4']
+        php: ['7.4', '8.1', '8.3', '8.4']
     steps:
       - uses: actions/checkout@v5
 
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          tools: composer
           coverage: none
 
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: npm
+
+      # build/ is not in Git; the admin apps ship from here.
+      - name: Build scripts
+        run: npm ci && npm run build
+
+      # Same production install deploy.yml runs before pushing to SVN.
+      - run: composer install --no-dev --prefer-dist --no-progress --no-interaction --optimize-autoloader
+
+      # The WordPress.org SVN hook rejects any file that fails php -l, so check everything that ships.
       - name: Lint shipped PHP
-        run: find . -name '*.php' -not -path './vendor/*' -not -path './tests/*' -not -path './bin/*' -print0 | xargs -0 -n1 -P4 php -d display_errors=stderr -l > /dev/null
+        run: find . -name '*.php' -not -path './node_modules/*' -not -path './tests/*' -not -path './bin/*' -print0 | xargs -0 -n1 -P4 php -d display_errors=stderr -l > /dev/null
+
+      - name: Check built scripts
+        run: for f in settings property-editor blocks frontend property-map search; do test -s build/$f.js && test -s build/$f.css && test -s build/$f.asset.php || { echo "::error::build/$f is missing"; exit 1; }; done
+
+      - name: Smoke-test autoloader
+        run: php -r 'require "vendor/autoload.php"; foreach (["EstateCraft\\Plugin", "EstateCraft\\Legacy\\Migrator", "EstateCraft\\Search\\Index"] as $c) { if (!class_exists($c)) { fwrite(STDERR, "missing $c\n"); exit(1); } }'
 
   phpunit:
     runs-on: ubuntu-latest
@@ -30,8 +86,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # Oldest supported pair and newest pair.
           - php: '7.4'
-            wp: '6.4'
+            wp: '6.5'
           - php: '8.3'
             wp: 'latest'
     services:
@@ -57,8 +114,13 @@ jobs:
       - name: Install WordPress test library
         run: bin/install-wp-tests.sh wordpress_test root root 127.0.0.1:3306 ${{ matrix.wp }}
 
-      # The security tests run AJAX handlers, which WordPress puts in the "ajax" group.
       - name: PHPUnit
+        run: vendor/bin/phpunit
+        env:
+          WP_TESTS_DIR: /tmp/wordpress-tests-lib
+
+      # The grid AJAX tests are in WordPress's "ajax" group, which only runs when asked for.
+      - name: PHPUnit (AJAX)
         run: vendor/bin/phpunit --group ajax
         env:
           WP_TESTS_DIR: /tmp/wordpress-tests-lib

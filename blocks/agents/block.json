@@ -1,0 +1,62 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "estatecraft/agents",
+	"title": "Agents",
+	"category": "estatecraft",
+	"icon": "groups",
+	"description": "A team of agents, or the agents of an agency.",
+	"keywords": [
+		"agent",
+		"team",
+		"agency"
+	],
+	"textdomain": "wp-smart-property",
+	"attributes": {
+		"source": {
+			"type": "string",
+			"enum": [
+				"all",
+				"agency",
+				"main"
+			],
+			"default": "all"
+		},
+		"agencyId": {
+			"type": "number",
+			"default": 0
+		},
+		"count": {
+			"type": "number",
+			"default": 12
+		},
+		"columns": {
+			"type": "number",
+			"default": 3
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"align": [
+			"wide",
+			"full"
+		]
+	},
+	"editorScript": "estatecraft-blocks",
+	"editorStyle": [
+		"estatecraft-frontend",
+		"estatecraft-blocks-editor"
+	],
+	"usesContext": [
+		"postId",
+		"postType"
+	]
+}

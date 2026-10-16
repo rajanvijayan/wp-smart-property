@@ -1,0 +1,44 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "estatecraft/property-gallery",
+	"title": "Property Gallery",
+	"category": "estatecraft",
+	"icon": "format-gallery",
+	"description": "The property's photos with a full-screen viewer.",
+	"keywords": [
+		"property",
+		"real estate"
+	],
+	"textdomain": "wp-smart-property",
+	"attributes": {
+		"layout": {
+			"type": "string",
+			"enum": [
+				"mosaic",
+				"single"
+			],
+			"default": "mosaic"
+		}
+	},
+	"supports": {
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"align": [
+			"wide",
+			"full"
+		]
+	},
+	"editorScript": "estatecraft-blocks",
+	"editorStyle": [
+		"estatecraft-frontend",
+		"estatecraft-blocks-editor"
+	],
+	"usesContext": [
+		"postId",
+		"postType"
+	]
+}

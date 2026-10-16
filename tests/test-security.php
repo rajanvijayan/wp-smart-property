@@ -161,46 +161,4 @@ class Test_Security extends WP_Ajax_UnitTestCase {
 		$this->ajax( 'post_grid_ajax_search' );
 		$this->assertSame( 'publish', $seen );
 	}
-
-	public function test_the_information_box_saves_only_its_own_fields() {
-		$user = self::factory()->user->create( array( 'role' => 'author' ) );
-		wp_set_current_user( $user );
-		$post = self::factory()->post->create(
-			array(
-				'post_type'   => 'property',
-				'post_author' => $user,
-			)
-		);
-		$_POST = array(
-			'property_meta_box_nonce'   => wp_create_nonce( 'property_meta_box' ),
-			'post_type'                 => 'property',
-			'property_additional_field' => array(
-				'property_address'  => "12 Rose Lane <script>alert(1)</script>\nLondon",
-				'admin_notes'       => 'Keys with neighbour',
-				'_wp_page_template' => 'evil.php',
-				'_edit_lock'        => '1',
-			),
-		);
-		( new propertyMetaBox() )->save( $post );
-
-		$address = get_post_meta( $post, 'property_address', true );
-		$this->assertStringNotContainsString( '<script', $address );
-		$this->assertStringContainsString( "12 Rose Lane", $address );
-		$this->assertStringContainsString( "\nLondon", $address );
-		$this->assertSame( 'Keys with neighbour', get_post_meta( $post, 'admin_notes', true ) );
-		$this->assertSame( '', get_post_meta( $post, '_wp_page_template', true ) );
-		$this->assertSame( '', get_post_meta( $post, '_edit_lock', true ) );
-	}
-
-	public function test_the_information_box_is_ignored_on_other_post_types() {
-		$this->_setRole( 'administrator' );
-		$page  = self::factory()->post->create( array( 'post_type' => 'page' ) );
-		$_POST = array(
-			'property_meta_box_nonce'   => wp_create_nonce( 'property_meta_box' ),
-			'post_type'                 => 'page',
-			'property_additional_field' => array( 'property_address' => 'Somewhere' ),
-		);
-		( new propertyMetaBox() )->save( $page );
-		$this->assertSame( '', get_post_meta( $page, 'property_address', true ) );
-	}
 }

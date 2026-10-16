@@ -1,0 +1,16 @@
+{
+	"extends": "@wordpress/stylelint-config/scss",
+	"rules": {
+		"no-descending-specificity": null,
+		"length-zero-no-unit": [
+			true,
+			{
+				"ignore": [
+					"custom-properties"
+				]
+			}
+		],
+		"max-line-length": 120,
+		"selector-class-pattern": null
+	}
+}

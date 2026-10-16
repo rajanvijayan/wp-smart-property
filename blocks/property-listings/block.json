@@ -1,0 +1,108 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "estatecraft/property-listings",
+	"title": "Property Listings",
+	"category": "estatecraft",
+	"icon": "grid-view",
+	"description": "A grid or list of properties.",
+	"keywords": [
+		"property",
+		"listings",
+		"grid",
+		"real estate"
+	],
+	"textdomain": "wp-smart-property",
+	"attributes": {
+		"source": {
+			"type": "string",
+			"enum": [
+				"query",
+				"main",
+				"similar",
+				"agent",
+				"agency"
+			],
+			"default": "query"
+		},
+		"count": {
+			"type": "number",
+			"default": 6
+		},
+		"order": {
+			"type": "string",
+			"enum": [
+				"featured",
+				"newest",
+				"price-asc",
+				"price-desc"
+			],
+			"default": "featured"
+		},
+		"featuredOnly": {
+			"type": "boolean",
+			"default": false
+		},
+		"types": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": []
+		},
+		"statuses": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": []
+		},
+		"locations": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": []
+		},
+		"layout": {
+			"type": "string",
+			"enum": [
+				"grid",
+				"list"
+			],
+			"default": "grid"
+		},
+		"columns": {
+			"type": "number",
+			"default": 3
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"pagination": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"supports": {
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"align": [
+			"wide",
+			"full"
+		]
+	},
+	"editorScript": "estatecraft-blocks",
+	"editorStyle": [
+		"estatecraft-frontend",
+		"estatecraft-blocks-editor"
+	],
+	"usesContext": [
+		"postId",
+		"postType"
+	]
+}

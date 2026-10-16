@@ -1,0 +1,59 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "estatecraft/search-results",
+	"title": "Property Search Results",
+	"category": "estatecraft",
+	"icon": "location-alt",
+	"description": "Search results with sorting, page links and a map.",
+	"keywords": [
+		"search",
+		"results",
+		"map",
+		"property"
+	],
+	"textdomain": "wp-smart-property",
+	"attributes": {
+		"view": {
+			"type": "string",
+			"enum": [
+				"list",
+				"split",
+				"map"
+			],
+			"default": "split"
+		},
+		"layout": {
+			"type": "string",
+			"enum": [
+				"grid",
+				"list"
+			],
+			"default": "grid"
+		},
+		"columns": {
+			"type": "number",
+			"default": 2
+		},
+		"mapHeight": {
+			"type": "number",
+			"default": 600
+		}
+	},
+	"supports": {
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"align": [
+			"wide",
+			"full"
+		]
+	},
+	"editorScript": "estatecraft-blocks",
+	"editorStyle": [
+		"estatecraft-frontend",
+		"estatecraft-blocks-editor"
+	]
+}

@@ -1,0 +1,946 @@
+// EstateCraft front end. Neutral styles that take the theme's fonts and text colour; change the
+// look with the custom properties below.
+:root {
+	--estatecraft-accent: #1d4f91;
+	--estatecraft-accent-text: #fff;
+	--estatecraft-muted: color-mix(in srgb, currentcolor 65%, transparent);
+	--estatecraft-border: color-mix(in srgb, currentcolor 15%, transparent);
+	--estatecraft-surface: color-mix(in srgb, currentcolor 4%, transparent);
+	--estatecraft-radius: 6px;
+	--estatecraft-gap: 1.5rem;
+}
+
+main.estatecraft-page {
+	margin-top: var(--wp--preset--spacing--50, 2rem);
+}
+
+.estatecraft-page.is-classic {
+	box-sizing: border-box;
+	max-width: 1200px;
+	margin: 2rem auto;
+	padding: 0 20px;
+}
+
+// A template column whose blocks printed nothing (an agency without a logo).
+.estatecraft-page .wp-block-column:not(:has(*)) {
+	display: none;
+}
+
+.estatecraft-icon {
+	flex: none;
+	width: 1.15em;
+	height: 1.15em;
+	vertical-align: -0.2em;
+}
+
+.estatecraft-heading {
+	margin: 0 0 1rem;
+	font-size: 1.35rem;
+}
+
+.estatecraft-empty {
+	padding: 1rem;
+	border: 1px dashed var(--estatecraft-border);
+	border-radius: var(--estatecraft-radius);
+	color: var(--estatecraft-muted);
+}
+
+.estatecraft-details,
+.estatecraft-features,
+.estatecraft-floor-plans,
+.estatecraft-video,
+.estatecraft-map,
+.estatecraft-open-houses,
+.estatecraft-property-agents {
+	margin-block: 2rem;
+}
+
+.estatecraft-button {
+	display: inline-flex;
+	gap: 0.4em;
+	align-items: center;
+	padding: 0.6em 1.1em;
+	border: 1px solid var(--estatecraft-accent);
+	border-radius: var(--estatecraft-radius);
+	background: var(--estatecraft-accent);
+	color: var(--estatecraft-accent-text);
+	font: inherit;
+	line-height: 1.2;
+	text-decoration: none;
+	cursor: pointer;
+
+	&:hover,
+	&:focus-visible {
+		filter: brightness(1.1);
+		color: var(--estatecraft-accent-text);
+	}
+
+	&.is-secondary {
+		border-color: var(--estatecraft-border);
+		background: transparent;
+		color: inherit;
+	}
+}
+
+// Badges
+.estatecraft-badges {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.35rem;
+}
+
+.estatecraft-badge {
+	padding: 0.2em 0.6em;
+	border-radius: 999px;
+	background: #3c434a;
+	color: #fff;
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	line-height: 1.4;
+	text-transform: uppercase;
+
+	&.is-for-sale {
+		background: #1d6b3a;
+	}
+
+	&.is-for-rent {
+		background: #1d4f91;
+	}
+
+	&.is-sold,
+	&.is-rented {
+		background: #a12c2c;
+	}
+
+	&.is-featured {
+		background: #b7791f;
+	}
+
+	&.is-label {
+		background: #fff;
+		color: #1d2327;
+		box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+	}
+}
+
+// Facts
+.estatecraft-facts {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem 1.5rem;
+	margin: 1rem 0;
+	padding: 0;
+	list-style: none;
+
+	&.is-compact {
+		gap: 0.25rem 1rem;
+		margin: 0.5rem 0 0;
+		font-size: 0.9rem;
+
+		.estatecraft-facts__label {
+			color: var(--estatecraft-muted);
+		}
+	}
+}
+
+.estatecraft-facts__item {
+	display: flex;
+	gap: 0.35rem;
+	align-items: center;
+	margin: 0;
+}
+
+.estatecraft-facts__value {
+	font-weight: 600;
+}
+
+.estatecraft-facts-block .estatecraft-facts:not(.is-compact) {
+	padding: 1rem 1.25rem;
+	border: 1px solid var(--estatecraft-border);
+	border-radius: var(--estatecraft-radius);
+}
+
+.estatecraft-address {
+	display: flex;
+	gap: 0.4rem;
+	align-items: flex-start;
+	margin: 0.25rem 0;
+	color: var(--estatecraft-muted);
+}
+
+// Price
+.estatecraft-price {
+	margin-bottom: 1.5rem;
+}
+
+.estatecraft-price__amount {
+	margin: 0.5rem 0 0;
+	font-size: 1.9rem;
+	font-weight: 700;
+	line-height: 1.2;
+}
+
+.estatecraft-price__ref {
+	margin: 0.25rem 0 0;
+	color: var(--estatecraft-muted);
+	font-size: 0.875rem;
+}
+
+.estatecraft-sidebar {
+	position: sticky;
+	top: 2rem;
+	padding: 1.5rem;
+	border: 1px solid var(--estatecraft-border);
+	border-radius: var(--estatecraft-radius);
+
+	> * {
+		margin-block: 0 1.5rem;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	@media (max-width: 781px) {
+		position: static;
+	}
+}
+
+// Gallery
+.estatecraft-gallery {
+	position: relative;
+	margin-bottom: 2rem;
+}
+
+.estatecraft-gallery__grid {
+	display: grid;
+	gap: 0.5rem;
+	overflow: hidden;
+	border-radius: var(--estatecraft-radius);
+	aspect-ratio: 16 / 9;
+
+	&.is-count-2 {
+		grid-template-columns: 2fr 1fr;
+	}
+
+	&.is-count-3,
+	&.is-count-4,
+	&.is-count-5 {
+		grid-template-columns: 2fr 1fr 1fr;
+		grid-template-rows: 1fr 1fr;
+	}
+
+	&.is-count-3 {
+		grid-template-columns: 2fr 1fr;
+	}
+
+	@media (max-width: 600px) {
+		display: block;
+		aspect-ratio: 4 / 3;
+
+		.estatecraft-gallery__item.is-main {
+			height: 100%;
+		}
+
+		.estatecraft-gallery__item:not(.is-main) {
+			display: none;
+		}
+	}
+}
+
+.estatecraft-gallery__item {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	background: var(--estatecraft-surface);
+
+	&.is-main {
+		grid-row: span 2;
+		height: 100%;
+	}
+
+	.is-count-2 &.is-main {
+		grid-row: auto;
+	}
+
+	.is-count-4 &:nth-child(4) {
+		grid-column: span 2;
+	}
+
+	&:focus-visible {
+		outline: 3px solid var(--estatecraft-accent);
+		outline-offset: -3px;
+	}
+}
+
+.estatecraft-gallery__image {
+	// Fill the tile whatever the theme's img rules say.
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100% !important;
+	max-width: none !important;
+	height: 100% !important;
+	object-fit: cover;
+	transition: transform 0.3s ease;
+
+	.estatecraft-gallery__item:hover & {
+		transform: scale(1.03);
+	}
+}
+
+.estatecraft-gallery__more {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.45);
+	color: #fff;
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+.estatecraft-gallery__all {
+	position: absolute;
+	right: 1rem;
+	bottom: 1rem;
+	display: inline-flex;
+	gap: 0.4rem;
+	align-items: center;
+	padding: 0.5rem 0.9rem;
+	border: 0;
+	border-radius: var(--estatecraft-radius);
+	background: #fff;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+	color: #1d2327;
+	font: inherit;
+	font-size: 0.875rem;
+	cursor: pointer;
+
+	&[hidden] {
+		display: none;
+	}
+}
+
+// Full-screen viewer
+.estatecraft-viewer {
+	width: 100vw;
+	max-width: none;
+	height: 100vh;
+	max-height: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: #111;
+	color: #fff;
+
+	&::backdrop {
+		background: rgba(0, 0, 0, 0.9);
+	}
+
+	button {
+		border: 0;
+		background: rgba(255, 255, 255, 0.12);
+		color: #fff;
+		font: inherit;
+		cursor: pointer;
+
+		&:hover,
+		&:focus-visible {
+			background: rgba(255, 255, 255, 0.25);
+		}
+
+		&:focus-visible {
+			outline: 2px solid #fff;
+		}
+	}
+}
+
+.estatecraft-viewer__bar {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.75rem 1rem;
+
+	p {
+		margin: 0;
+	}
+}
+
+.estatecraft-viewer__close {
+	padding: 0.5rem 1rem;
+	border-radius: var(--estatecraft-radius);
+}
+
+.estatecraft-viewer__stage {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	margin: 0;
+	padding: 3.5rem 4rem 2rem;
+	box-sizing: border-box;
+
+	img {
+		max-width: 100%;
+		max-height: calc(100% - 2rem);
+		object-fit: contain;
+	}
+
+	figcaption {
+		margin-top: 0.75rem;
+		color: #ccc;
+	}
+
+	@media (max-width: 600px) {
+		padding: 3.5rem 0.5rem 2rem;
+	}
+}
+
+.estatecraft-viewer__nav {
+	position: absolute;
+	top: 50%;
+	width: 3rem;
+	height: 3rem;
+	border-radius: 50%;
+	font-size: 2rem !important;
+	line-height: 1;
+	transform: translateY(-50%);
+
+	&.is-prev {
+		left: 0.75rem;
+	}
+
+	&.is-next {
+		right: 0.75rem;
+	}
+
+	&[hidden] {
+		display: none;
+	}
+}
+
+// Details and features
+.estatecraft-details__list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 0 2rem;
+	margin: 0;
+}
+
+.estatecraft-details__row {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.6rem 0;
+	border-bottom: 1px solid var(--estatecraft-border);
+
+	dt {
+		color: var(--estatecraft-muted);
+	}
+
+	dd {
+		margin: 0;
+		font-weight: 600;
+		text-align: right;
+	}
+}
+
+.estatecraft-features__list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: 0.6rem 1.5rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	li {
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+		margin: 0;
+	}
+
+	.estatecraft-icon {
+		color: var(--estatecraft-accent);
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+// Floor plans
+.estatecraft-plans {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	gap: var(--estatecraft-gap);
+}
+
+.estatecraft-plan {
+	margin: 0;
+
+	img {
+		display: block;
+		width: 100%;
+		height: auto;
+		border: 1px solid var(--estatecraft-border);
+		border-radius: var(--estatecraft-radius);
+		background: #fff;
+	}
+
+	figcaption {
+		margin-top: 0.5rem;
+
+		span {
+			display: block;
+			color: var(--estatecraft-muted);
+			font-size: 0.9rem;
+		}
+	}
+}
+
+// Video and tour
+.estatecraft-video__embed,
+.estatecraft-video__tour {
+	margin-bottom: 1rem;
+
+	iframe {
+		display: block;
+		width: 100%;
+		height: auto;
+		border: 0;
+		border-radius: var(--estatecraft-radius);
+		aspect-ratio: 16 / 9;
+	}
+}
+
+// Map
+.estatecraft-map__note {
+	margin: 0.5rem 0 0;
+	color: var(--estatecraft-muted);
+	font-size: 0.9rem;
+}
+
+// Open houses
+.estatecraft-open-houses__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	li {
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+		margin: 0 0 0.4rem;
+	}
+}
+
+.estatecraft-sidebar .estatecraft-heading {
+	font-size: 1.1rem;
+}
+
+// Agents
+.estatecraft-agent {
+	display: flex;
+	gap: 1rem;
+	align-items: flex-start;
+	margin-bottom: 1rem;
+}
+
+.estatecraft-agent__photo {
+	flex: none;
+	overflow: hidden;
+	width: 72px;
+	height: 72px;
+	border-radius: 50%;
+	background: var(--estatecraft-surface);
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+.estatecraft-agent__initials {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	background: var(--estatecraft-accent);
+	color: var(--estatecraft-accent-text);
+	font-size: 1.4rem;
+	font-weight: 600;
+}
+
+.estatecraft-agent__name {
+	margin: 0;
+	font-size: 1.1rem;
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+}
+
+.estatecraft-agent__agency {
+	margin: 0.1rem 0 0;
+	color: var(--estatecraft-muted);
+	font-size: 0.9rem;
+}
+
+.estatecraft-contact {
+	margin: 0.5rem 0 0;
+	padding: 0;
+	list-style: none;
+	font-size: 0.95rem;
+
+	li {
+		display: flex;
+		gap: 0.5rem;
+		align-items: flex-start;
+		margin: 0 0 0.3rem;
+		overflow-wrap: anywhere;
+	}
+}
+
+.estatecraft-profile {
+	margin: 1rem 0;
+
+	.estatecraft-contact {
+		font-size: 1rem;
+	}
+}
+
+.estatecraft-profile__agency {
+	margin: 0;
+	font-weight: 600;
+}
+
+.estatecraft-profile__count {
+	color: var(--estatecraft-muted);
+}
+
+.estatecraft-agents__list {
+	display: grid;
+	grid-template-columns: repeat(var(--estatecraft-columns, 3), minmax(0, 1fr));
+	gap: var(--estatecraft-gap);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	> li {
+		margin: 0;
+		padding: 1.25rem;
+		border: 1px solid var(--estatecraft-border);
+		border-radius: var(--estatecraft-radius);
+	}
+
+	.estatecraft-agent {
+		margin: 0;
+	}
+
+	@media (max-width: 900px) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	@media (max-width: 600px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+// Actions
+.estatecraft-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	align-items: center;
+
+	[hidden] {
+		display: none;
+	}
+}
+
+.estatecraft-actions__status {
+	color: var(--estatecraft-muted);
+	font-size: 0.875rem;
+}
+
+// Listings and cards
+.estatecraft-listings {
+	margin-block: 2rem;
+}
+
+.estatecraft-listings__list {
+	display: grid;
+	gap: var(--estatecraft-gap);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	&.is-grid {
+		grid-template-columns: repeat(var(--estatecraft-columns, 3), minmax(0, 1fr));
+
+		@media (max-width: 900px) {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		@media (max-width: 600px) {
+			grid-template-columns: 1fr;
+		}
+	}
+}
+
+.estatecraft-listings__item {
+	display: flex;
+	margin: 0;
+}
+
+.estatecraft-card {
+	position: relative;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	overflow: hidden;
+	border: 1px solid var(--estatecraft-border);
+	border-radius: var(--estatecraft-radius);
+	transition: box-shadow 0.2s ease;
+
+	&:hover,
+	&:focus-within {
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+	}
+
+	&.is-list {
+		flex-direction: row;
+
+		.estatecraft-card__media {
+			flex: 0 0 min(320px, 40%);
+			aspect-ratio: auto;
+			min-height: 180px;
+		}
+
+		@media (max-width: 600px) {
+			flex-direction: column;
+
+			.estatecraft-card__media {
+				flex-basis: auto;
+				aspect-ratio: 3 / 2;
+			}
+		}
+	}
+
+	.estatecraft-badges {
+		position: absolute;
+		top: 0.75rem;
+		left: 0.75rem;
+	}
+}
+
+.estatecraft-card__media {
+	display: block;
+	overflow: hidden;
+	background: var(--estatecraft-surface);
+	aspect-ratio: 3 / 2;
+}
+
+.estatecraft-card__image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.3s ease;
+
+	.estatecraft-card:hover & {
+		transform: scale(1.04);
+	}
+}
+
+.estatecraft-card__placeholder {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	color: var(--estatecraft-muted);
+
+	.estatecraft-icon {
+		width: 3rem;
+		height: 3rem;
+	}
+}
+
+.estatecraft-card__body {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	padding: 1rem 1.1rem 1.1rem;
+}
+
+.estatecraft-card__price {
+	order: -1;
+	margin: 0;
+	font-size: 1.25rem;
+	font-weight: 700;
+}
+
+.estatecraft-card__title {
+	margin: 0.25rem 0 0;
+	font-size: 1.05rem;
+	line-height: 1.3;
+
+	a {
+		color: inherit;
+		text-decoration: none;
+
+		// The whole card is clickable through the title link.
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+		}
+
+		&:focus-visible {
+			outline: none;
+
+			&::after {
+				outline: 3px solid var(--estatecraft-accent);
+				outline-offset: -3px;
+				border-radius: var(--estatecraft-radius);
+			}
+		}
+	}
+}
+
+.estatecraft-card__address {
+	margin: 0.25rem 0 0;
+	color: var(--estatecraft-muted);
+	font-size: 0.9rem;
+}
+
+.estatecraft-pagination {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+	justify-content: center;
+	margin-top: 2rem;
+
+	.page-numbers {
+		min-width: 2.5rem;
+		padding: 0.45rem 0.75rem;
+		border: 1px solid var(--estatecraft-border);
+		border-radius: var(--estatecraft-radius);
+		color: inherit;
+		text-align: center;
+		text-decoration: none;
+
+		&.current {
+			border-color: var(--estatecraft-accent);
+			background: var(--estatecraft-accent);
+			color: var(--estatecraft-accent-text);
+		}
+	}
+}
+
+// Featured property
+.estatecraft-featured {
+	display: grid;
+	grid-template-columns: 3fr 2fr;
+	overflow: hidden;
+	margin-block: 2rem;
+	border: 1px solid var(--estatecraft-border);
+	border-radius: var(--estatecraft-radius);
+
+	@media (max-width: 781px) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.estatecraft-featured__media {
+	display: block;
+	min-height: 320px;
+	background: var(--estatecraft-surface);
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+.estatecraft-featured__body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 2rem;
+}
+
+.estatecraft-featured__price {
+	margin: 1rem 0 0;
+	font-size: 1.6rem;
+	font-weight: 700;
+}
+
+.estatecraft-featured__title {
+	margin: 0.25rem 0;
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+}
+
+.estatecraft-featured__excerpt {
+	color: var(--estatecraft-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.estatecraft-card,
+	.estatecraft-card__image,
+	.estatecraft-gallery__image {
+		transition: none;
+	}
+
+	.estatecraft-card:hover .estatecraft-card__image,
+	.estatecraft-gallery__item:hover .estatecraft-gallery__image {
+		transform: none;
+	}
+}
+
+@media print {
+
+	.estatecraft-actions,
+	.estatecraft-gallery__all,
+	.estatecraft-video__tour,
+	.estatecraft-map__canvas,
+	.estatecraft-listings {
+		display: none !important;
+	}
+
+	.estatecraft-sidebar {
+		position: static;
+		border: 0;
+		padding: 0;
+	}
+
+	.estatecraft-gallery__grid {
+		aspect-ratio: auto;
+	}
+}

@@ -1,0 +1,340 @@
+// Results: toolbar, list, map and views.
+.estatecraft-results {
+	margin-block: 1.5rem 2rem;
+
+	&[aria-busy="true"] .estatecraft-results__list {
+		opacity: 0.55;
+		transition: opacity 0.15s ease;
+	}
+}
+
+.estatecraft-results__bar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem 1.5rem;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 1rem;
+}
+
+.estatecraft-results__summary {
+	margin: 0;
+	font-weight: 600;
+}
+
+.estatecraft-results__sort {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	margin: 0 0 0 auto;
+
+	select {
+		padding: 0.35rem 0.5rem;
+		font: inherit;
+	}
+
+	[hidden] {
+		display: none;
+	}
+}
+
+.estatecraft-results__views {
+	display: inline-flex;
+	overflow: hidden;
+	border: 1px solid var(--estatecraft-border);
+	border-radius: var(--estatecraft-radius);
+}
+
+.estatecraft-results__view {
+	padding: 0.4rem 0.85rem;
+	color: inherit;
+	font-size: 0.9rem;
+	text-decoration: none;
+
+	& + & {
+		border-left: 1px solid var(--estatecraft-border);
+	}
+
+	&.is-active {
+		background: var(--estatecraft-accent);
+		color: var(--estatecraft-accent-text);
+	}
+}
+
+.estatecraft-results__body {
+	display: grid;
+	gap: var(--estatecraft-gap);
+	align-items: start;
+
+	.is-view-split & {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	}
+}
+
+.estatecraft-results__map {
+	position: sticky;
+	top: 1rem;
+
+	.is-view-list & {
+		display: none;
+	}
+
+	.is-view-split & .estatecraft-results__canvas {
+		height: min(var(--estatecraft-map-height, 600px), calc(100vh - 2rem));
+	}
+}
+
+.estatecraft-results__list {
+
+	.is-view-map & {
+		display: none;
+	}
+}
+
+.estatecraft-results__canvas {
+	position: relative;
+	z-index: 0;
+	height: var(--estatecraft-map-height, 600px);
+	border-radius: var(--estatecraft-radius);
+	background: #e8eaed;
+}
+
+.estatecraft-results__bounds {
+	display: flex;
+	gap: 0.4rem;
+	align-items: center;
+	margin-top: 0.5rem;
+	font-size: 0.9rem;
+
+	&[hidden] {
+		display: none;
+	}
+}
+
+.estatecraft-results__note {
+	margin: 0.4rem 0 0;
+	color: var(--estatecraft-muted);
+	font-size: 0.875rem;
+}
+
+// Below tablet width the split view shows the list; the map stays one tap away.
+@media (max-width: 900px) {
+
+	.estatecraft-results__body {
+
+		.is-view-split & {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.is-view-split .estatecraft-results__map {
+		display: none;
+	}
+
+	.estatecraft-results__view[data-view="split"] {
+		display: none;
+	}
+
+	.estatecraft-results__view[data-view="map"] {
+		border-left: 0;
+	}
+
+	.estatecraft-results__map {
+		position: static;
+	}
+
+	.is-view-map .estatecraft-results__canvas {
+		height: 70vh;
+	}
+}
+
+// Price pins and popups.
+.estatecraft-price-pin {
+
+	span {
+		position: relative;
+		display: inline-block;
+		padding: 0.2rem 0.5rem;
+		border-radius: 999px;
+		background: #fff;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+		color: #1d2327;
+		font: 600 12px/1.4 system-ui, sans-serif;
+		white-space: nowrap;
+		transform: translate(-50%, -100%);
+	}
+
+	&.is-approximate span {
+		border: 1px dashed #50575e;
+	}
+
+	&.is-active span,
+	&:hover span,
+	&:focus span {
+		z-index: 1;
+		background: var(--estatecraft-accent, #1d4f91);
+		color: #fff;
+	}
+
+	&.is-active {
+		z-index: 1000 !important;
+	}
+}
+
+.estatecraft-popup {
+	display: block;
+	width: 200px;
+	color: inherit;
+	text-decoration: none;
+
+	img {
+		display: block;
+		width: 100%;
+		height: 120px;
+		margin-bottom: 0.4rem;
+		border-radius: 4px;
+		object-fit: cover;
+	}
+
+	span,
+	strong {
+		display: block;
+	}
+
+	&__price {
+		font-size: 15px;
+	}
+
+	&__facts {
+		color: #646970;
+	}
+}
+
+// Search form.
+.estatecraft-search {
+	margin-block: 1rem;
+}
+
+.estatecraft-search__form {
+	padding: 1rem 1.25rem;
+	border: 1px solid var(--estatecraft-border);
+	border-radius: var(--estatecraft-radius);
+	background: var(--estatecraft-surface);
+
+	input,
+	select {
+		box-sizing: border-box;
+		width: 100%;
+		min-height: 2.5rem;
+		padding: 0.4rem 0.6rem;
+		border: 1px solid color-mix(in srgb, currentcolor 30%, transparent);
+		border-radius: calc(var(--estatecraft-radius) - 2px);
+		background: #fff;
+		color: #1d2327;
+		font: inherit;
+	}
+
+	input[type="checkbox"] {
+		width: auto;
+		min-height: 0;
+	}
+
+	label,
+	legend {
+		display: block;
+		margin-bottom: 0.25rem;
+		font-size: 0.85rem;
+		font-weight: 600;
+	}
+
+	fieldset {
+		min-width: 0;
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+}
+
+.estatecraft-search__main {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 0.75rem;
+	align-items: end;
+
+	.is-keyword,
+	.is-price {
+		grid-column: span 2;
+
+		@media (max-width: 600px) {
+			grid-column: auto;
+		}
+	}
+
+	.is-stacked & {
+		grid-template-columns: 1fr;
+
+		.is-keyword,
+		.is-price {
+			grid-column: auto;
+		}
+	}
+}
+
+.estatecraft-search__range {
+	display: flex;
+	gap: 0.4rem;
+	align-items: center;
+}
+
+.estatecraft-search__submit .estatecraft-button {
+	justify-content: center;
+	width: 100%;
+	min-height: 2.5rem;
+}
+
+.estatecraft-search__more {
+	margin-top: 0.75rem;
+
+	summary {
+		font-size: 0.9rem;
+		cursor: pointer;
+	}
+}
+
+.estatecraft-search__more-fields {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	gap: 0.75rem;
+	margin-top: 0.75rem;
+}
+
+.estatecraft-search__features {
+	display: flex;
+	flex-wrap: wrap;
+	grid-column: 1 / -1;
+	gap: 0.4rem 1.25rem;
+
+	legend {
+		width: 100%;
+	}
+
+	label {
+		display: flex;
+		gap: 0.35rem;
+		align-items: center;
+		margin: 0;
+		font-weight: 400;
+	}
+}
+
+.estatecraft-search__field.is-check label {
+	display: flex;
+	gap: 0.4rem;
+	align-items: center;
+	margin-top: 1.5rem;
+	font-weight: 400;
+}
+
+.estatecraft-hero {
+	padding-block: 4rem;
+}
