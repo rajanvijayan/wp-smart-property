@@ -1,0 +1,40 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "estatecraft/property-features",
+	"title": "Property Features",
+	"category": "estatecraft",
+	"icon": "yes-alt",
+	"description": "The property's features and amenities.",
+	"keywords": [
+		"property",
+		"real estate"
+	],
+	"textdomain": "wp-smart-property",
+	"attributes": {
+		"showHeading": {
+			"type": "boolean",
+			"default": true
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"editorScript": "estatecraft-blocks",
+	"editorStyle": [
+		"estatecraft-frontend",
+		"estatecraft-blocks-editor"
+	],
+	"usesContext": [
+		"postId",
+		"postType"
+	]
+}

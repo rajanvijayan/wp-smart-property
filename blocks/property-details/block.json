@@ -1,0 +1,47 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "estatecraft/property-details",
+	"title": "Property Details",
+	"category": "estatecraft",
+	"icon": "list-view",
+	"description": "A table of property details, including custom fields.",
+	"keywords": [
+		"property",
+		"real estate"
+	],
+	"textdomain": "wp-smart-property",
+	"attributes": {
+		"showHeading": {
+			"type": "boolean",
+			"default": true
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"fields": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"default": []
+		}
+	},
+	"supports": {
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"editorScript": "estatecraft-blocks",
+	"editorStyle": [
+		"estatecraft-frontend",
+		"estatecraft-blocks-editor"
+	],
+	"usesContext": [
+		"postId",
+		"postType"
+	]
+}

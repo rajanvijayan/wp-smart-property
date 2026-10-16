@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "estatecraft/featured-property",
+	"title": "Featured Property",
+	"category": "estatecraft",
+	"icon": "star-filled",
+	"description": "One property presented large.",
+	"keywords": [
+		"property",
+		"real estate"
+	],
+	"textdomain": "wp-smart-property",
+	"attributes": {
+		"propertyId": {
+			"type": "number",
+			"default": 0
+		}
+	},
+	"supports": {
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"align": [
+			"wide",
+			"full"
+		]
+	},
+	"editorScript": "estatecraft-blocks",
+	"editorStyle": [
+		"estatecraft-frontend",
+		"estatecraft-blocks-editor"
+	]
+}

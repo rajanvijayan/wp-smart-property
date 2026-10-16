@@ -12,7 +12,17 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 EstateCraft\Capabilities::uninstall();
 EstateCraft\Search\Index::uninstall();
-foreach ( array( 'estatecraft_migration', 'estatecraft_legacy_terms', 'estatecraft_migrating', 'estatecraft_migration_notice' ) as $estatecraft_option ) {
+$estatecraft_options = array(
+	'estatecraft_migration',
+	'estatecraft_legacy_terms',
+	'estatecraft_migrating',
+	'estatecraft_migration_notice',
+	'estatecraft_settings',
+	'estatecraft_geocode_last',
+	'estatecraft_default_terms',
+	'estatecraft_agent_links',
+);
+foreach ( $estatecraft_options as $estatecraft_option ) {
 	delete_option( $estatecraft_option );
 }
 wp_clear_scheduled_hook( 'estatecraft_migrate' );

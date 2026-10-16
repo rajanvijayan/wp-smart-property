@@ -13,6 +13,8 @@ namespace EstateCraft\Properties;
  */
 final class Taxonomies {
 
+	const DEFAULTS = 'estatecraft_default_terms';
+
 	/**
 	 * Taxonomies: key => array( URL slug, hierarchical, labels ).
 	 *
@@ -71,7 +73,16 @@ final class Taxonomies {
 	}
 
 	/**
-	 * Default terms created on first activation.
+	 * Create the default terms once, also on sites updated without activation.
+	 */
+	public static function maybe_install_defaults() {
+		if ( ! get_option( self::DEFAULTS ) ) {
+			self::install_defaults();
+		}
+	}
+
+	/**
+	 * Create the default statuses and types (missing ones only).
 	 */
 	public static function install_defaults() {
 		$defaults = array(
@@ -95,5 +106,6 @@ final class Taxonomies {
 				}
 			}
 		}
+		update_option( self::DEFAULTS, 1, true );
 	}
 }

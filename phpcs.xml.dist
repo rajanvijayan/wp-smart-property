@@ -5,6 +5,12 @@
 	<file>init.php</file>
 	<file>uninstall.php</file>
 	<file>src</file>
+	<file>templates</file>
+
+	<!-- Template files are named after the template hierarchy (single-estate_agent.php). -->
+	<rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
+		<exclude-pattern>templates/*</exclude-pattern>
+	</rule>
 
 	<arg name="extensions" value="php"/>
 	<arg value="sp"/>

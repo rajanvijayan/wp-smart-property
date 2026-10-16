@@ -1,0 +1,32 @@
+// Previews are not interactive: links and buttons inside them would leave the editor.
+.estatecraft-block-preview {
+
+	a,
+	button,
+	iframe {
+		pointer-events: none;
+	}
+
+	// The map script does not run in the editor.
+	.estatecraft-map__canvas {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: repeating-linear-gradient(45deg, #f0f0f1, #f0f0f1 10px, #e6e7e8 10px, #e6e7e8 20px);
+
+		&::after {
+			content: "OpenStreetMap";
+			color: #50575e;
+		}
+	}
+
+	.estatecraft-gallery__all,
+	[data-estatecraft-share],
+	[data-estatecraft-print] {
+		display: inline-flex !important;
+	}
+
+	.components-placeholder {
+		min-height: 60px;
+	}
+}

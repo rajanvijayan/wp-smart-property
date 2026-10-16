@@ -47,7 +47,7 @@ jobs:
         run: npm ci && npm run build
 
       - name: Check built scripts
-        run: for f in settings property-editor; do test -s build/$f.js && test -s build/$f.css && test -s build/$f.asset.php || { echo "::error::build/$f is missing"; exit 1; }; done
+        run: for f in settings property-editor blocks frontend property-map; do test -s build/$f.js && test -s build/$f.css && test -s build/$f.asset.php || { echo "::error::build/$f is missing"; exit 1; }; done
 
       # The WordPress.org SVN hook rejects any file that fails php -l; fail here instead.
       - name: Lint shipped PHP

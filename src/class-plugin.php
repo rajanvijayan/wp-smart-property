@@ -9,10 +9,12 @@ namespace EstateCraft;
 
 use EstateCraft\Admin\Admin;
 use EstateCraft\Agents\Agent_Types;
+use EstateCraft\Frontend\Frontend;
 use EstateCraft\Inquiries\Inquiry_Type;
 use EstateCraft\Legacy\Legacy_Taxonomies;
 use EstateCraft\Legacy\Migrator;
 use EstateCraft\Legacy\Post_Grid_Bridge;
+use EstateCraft\Properties\Agent_Link;
 use EstateCraft\Properties\Fields;
 use EstateCraft\Properties\Property_Type;
 use EstateCraft\Properties\Taxonomies;
@@ -54,6 +56,8 @@ final class Plugin {
 		Index::register();
 		Migrator::register();
 		Post_Grid_Bridge::load();
+		Agent_Link::register();
+		Frontend::register();
 		add_filter( 'estatecraft_property_fields', array( Settings::class, 'custom_fields' ) );
 		if ( is_admin() ) {
 			Admin::register();
@@ -78,6 +82,8 @@ final class Plugin {
 	public static function upgrade() {
 		Index::maybe_install();
 		Capabilities::maybe_install();
+		Taxonomies::maybe_install_defaults();
+		Agent_Link::maybe_backfill();
 		if ( Migrator::pending() ) {
 			Migrator::maybe_run();
 		}

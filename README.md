@@ -22,9 +22,12 @@ Property listings for WordPress, with search, maps, agents and inquiries, and a 
 - **Property details editor** in wp-admin, in both the block and classic editors: tabs for the listing, rooms and size, location (OpenStreetMap pin picker with address lookup), photos and floor plans, open houses, agents, private notes and custom fields.
 - **Settings app:** currency and area units, pages, map tiles and starting view, emails, agent portal, privacy, a **custom fields builder** (text, number, choice list, yes/no, date), and tools to rebuild the search index and review the 2.0 upgrade.
 - **Admin list** with photo, price, rooms and agent columns, price sorting and status/type filters, plus a dashboard widget.
+- **Property pages** for block and classic themes: photo gallery with a full-screen viewer, price and status, key facts, features, details (including custom fields), floor plans, video and virtual tour, an OpenStreetMap map (only the area when the exact address is hidden), open house times, agent contact cards, share and print, and similar properties.
+- **Archives and agent pages:** property archives (also by type, status, location and feature) with featured properties first, agent and agency profiles with their listings, and an agent directory. Templates are editable in the Site Editor; classic themes can override them in `yourtheme/estatecraft/`.
+- **16 blocks** (Property Listings, Featured Property, Agents, Gallery, Map, Details and more) and patterns for home pages.
+- **schema.org data** (`RealEstateListing`, `RealEstateAgent`, breadcrumbs), Open Graph tags when no SEO plugin is active, and clean sitemaps.
 
 **Coming in 3.0**
-- Property pages, archives, agent pages, blocks and patterns for block and classic themes, and schema.org data.
 - Search with filters, shareable URLs and a list/map view on OpenStreetMap, with marker clustering and "search as I move the map".
 - Inquiry and viewing forms, favourites, saved searches with email alerts, a mortgage calculator, privacy tools and spam protection.
 - **Agent portal:** registration, a dashboard, multi-step listing submission with photo uploads and a map pin, moderation, expiry and renewals.
