@@ -19,9 +19,11 @@ Property listings for WordPress, with search, maps, agents and inquiries, and a 
 - **Agents and agencies** with public profiles, and **inquiries** stored as private records.
 - **Roles:** Estate agent and Estate manager. Authors and contributors keep what they could do in 2.0.
 - **Fast search index:** one indexed row per property (price, rooms, area, coordinates, status), kept in sync on every change and rebuildable at any time.
+- **Property details editor** in wp-admin, in both the block and classic editors: tabs for the listing, rooms and size, location (OpenStreetMap pin picker with address lookup), photos and floor plans, open houses, agents, private notes and custom fields.
+- **Settings app:** currency and area units, pages, map tiles and starting view, emails, agent portal, privacy, a **custom fields builder** (text, number, choice list, yes/no, date), and tools to rebuild the search index and review the 2.0 upgrade.
+- **Admin list** with photo, price, rooms and agent columns, price sorting and status/type filters, plus a dashboard widget.
 
 **Coming in 3.0**
-- A property details editor in wp-admin, a settings app and a custom fields builder.
 - Property pages, archives, agent pages, blocks and patterns for block and classic themes, and schema.org data.
 - Search with filters, shareable URLs and a list/map view on OpenStreetMap, with marker clustering and "search as I move the map".
 - Inquiry and viewing forms, favourites, saved searches with email alerts, a mortgage calculator, privacy tools and spam protection.
@@ -58,12 +60,15 @@ The upgrade runs by itself when the plugin is updated. It works in small batches
 composer install          # autoloader, PHPCS and PHPUnit
 composer lint             # PHPCS (WordPress Coding Standards, PHP 7.4+ compatibility)
 
+npm ci && npm run build   # admin apps into build/ (npm start to watch)
+npm run lint:js && npm run lint:css
+
 bin/install-wp-tests.sh wordpress_test root '' localhost latest
 WP_TESTS_DIR=/tmp/wordpress-tests-lib vendor/bin/phpunit               # core tests
 WP_TESTS_DIR=/tmp/wordpress-tests-lib vendor/bin/phpunit --group ajax  # grid AJAX tests
 ```
 
-`vendor/` is not committed; the release workflow installs it. Releases are deployed to WordPress.org by GitHub Actions when a version tag is pushed. See [RELEASING.md](RELEASING.md).
+`vendor/` and `build/` are not committed; the release workflow installs and builds them. Releases are deployed to WordPress.org by GitHub Actions when a version tag is pushed. See [RELEASING.md](RELEASING.md).
 
 ## License
 

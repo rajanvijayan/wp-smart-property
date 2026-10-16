@@ -31,6 +31,7 @@
 				<element value="edit_estate_properties"/>
 				<element value="publish_estate_properties"/>
 				<element value="edit_others_estate_properties"/>
+				<element value="edit_others_estate_agents"/>
 			</property>
 		</properties>
 	</rule>

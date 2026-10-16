@@ -1,0 +1,187 @@
+.estatecraft-editor {
+	margin: -6px -12px -12px;
+
+	.components-tab-panel__tabs {
+		flex-wrap: wrap;
+		border-bottom: 1px solid #dcdcde;
+		padding: 0 4px;
+	}
+
+	h3 {
+		margin: 24px 0 8px;
+		font-size: 14px;
+
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+
+	.description {
+		margin: 8px 0 16px;
+	}
+}
+
+.estatecraft-editor__panel {
+	padding: 16px;
+
+	> .components-toggle-control,
+	> .components-base-control {
+		margin-bottom: 16px;
+	}
+}
+
+.estatecraft-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: 16px;
+	margin-bottom: 16px;
+}
+
+.estatecraft-field.is-wide {
+	grid-column: span 2;
+
+	@media (max-width: 600px) {
+		grid-column: auto;
+	}
+}
+
+.estatecraft-location__tools {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 12px;
+}
+
+.estatecraft-location__state {
+	color: #646970;
+}
+
+.estatecraft-map {
+	height: 340px;
+	margin: 12px 0 16px;
+	border: 1px solid #dcdcde;
+	border-radius: 2px;
+	z-index: 0;
+}
+
+.estatecraft-pin span {
+	display: block;
+	width: 28px;
+	height: 28px;
+	border: 3px solid #fff;
+	border-radius: 50% 50% 50% 0;
+	background: #2271b1;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+	transform: rotate(-45deg);
+}
+
+.estatecraft-gallery__list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+	gap: 8px;
+	margin: 0 0 12px;
+}
+
+.estatecraft-gallery__item {
+	position: relative;
+	margin: 0;
+	border: 1px solid #dcdcde;
+	background: #f6f7f7;
+	aspect-ratio: 1;
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+.estatecraft-gallery__missing {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	color: #646970;
+}
+
+.estatecraft-gallery__badge {
+	position: absolute;
+	top: 4px;
+	left: 4px;
+	padding: 2px 6px;
+	border-radius: 2px;
+	background: rgba(0, 0, 0, 0.7);
+	color: #fff;
+	font-size: 11px;
+}
+
+.estatecraft-gallery__actions {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	justify-content: space-between;
+	background: rgba(255, 255, 255, 0.92);
+}
+
+.estatecraft-plans__row,
+.estatecraft-slot {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 12px;
+	margin-bottom: 12px;
+	padding: 12px;
+	border: 1px solid #dcdcde;
+	border-radius: 2px;
+}
+
+.estatecraft-plans__image {
+	flex: 0 0 96px;
+	height: 96px;
+	padding: 0;
+	border: 1px dashed #8c8f94;
+	background: #f6f7f7;
+	color: #50575e;
+	cursor: pointer;
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+.estatecraft-plans__fields {
+	display: grid;
+	flex: 1;
+	grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+	gap: 12px;
+}
+
+.estatecraft-slot .components-base-control {
+	flex: 1 1 200px;
+}
+
+.estatecraft-agents__list {
+	margin: 0 0 12px;
+
+	li {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		max-width: 400px;
+		margin: 0 0 4px;
+		padding: 4px 4px 4px 12px;
+		border: 1px solid #dcdcde;
+		border-radius: 2px;
+	}
+}
+
+.estatecraft-agents .components-combobox-control {
+	max-width: 400px;
+}

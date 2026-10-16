@@ -6,6 +6,7 @@
 /bin
 /docs
 /node_modules
+/assets/src
 .distignore
 .gitignore
 .gitattributes
@@ -18,3 +19,7 @@ RELEASING.md
 CLAUDE.md
 .phpunit.result.cache
 phpcs.xml.dist
+package.json
+package-lock.json
+.eslintrc.js
+.stylelintrc.json

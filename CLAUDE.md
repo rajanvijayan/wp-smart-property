@@ -15,4 +15,4 @@ This file is the one exception, and `.distignore` excludes it from the WordPress
 - WordPress.org plugin `wp-smart-property` (released as EstateCraft from 3.0). Git is the source of truth; SVN is updated only by GitHub Actions (see `RELEASING.md`).
 - Never push a git tag unless asked: a tag push triggers a live SVN deploy.
 - The default branch is `master`. 2.0.x security fixes are on `release/2.0.1`; 3.0 is built on `release/3.0` (plan in `docs/ROADMAP-3.0.md` on `plan/3.0`).
-- `vendor/` is not committed. `composer install` installs the test tools; PHPUnit needs `WP_TESTS_DIR` (see `bin/install-wp-tests.sh`).
+- `vendor/` and `build/` are not committed. Run `composer install` and `npm ci && npm run build` locally; `composer lint` runs PHPCS and PHPUnit needs `WP_TESTS_DIR` (see `bin/install-wp-tests.sh`).
