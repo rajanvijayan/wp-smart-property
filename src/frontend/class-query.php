@@ -139,8 +139,12 @@ final class Query {
 			);
 		}
 		$clauses['where'] .= $where;
-		$date              = "{$wpdb->posts}.post_date DESC";
-		$order             = isset( $opts['order'] ) && in_array( $opts['order'], self::ORDERS, true ) ? $opts['order'] : 'featured';
+		// "none": filters only, the query keeps its own order (2.0 grids).
+		if ( isset( $opts['order'] ) && 'none' === $opts['order'] ) {
+			return $clauses;
+		}
+		$date  = "{$wpdb->posts}.post_date DESC";
+		$order = isset( $opts['order'] ) && in_array( $opts['order'], self::ORDERS, true ) ? $opts['order'] : 'featured';
 		switch ( $order ) {
 			case 'newest':
 				$clauses['orderby'] = $date;

@@ -189,7 +189,8 @@ class Test_Search extends EstateCraft_TestCase {
 		$this->assertSame( 3, $markers['total'], 'Properties without a pin are not on the map.' );
 		$byid = array_column( $markers['markers'], null, 'id' );
 		$this->assertTrue( $byid[ $this->p['family'] ]['approximate'] );
-		$this->assertNotEquals( 51.52, $byid[ $this->p['family'] ]['lat'] );
+		// Shifted 100-250 m; in some directions one of the two coordinates barely changes.
+		$this->assertNotEquals( array( 51.52, -0.12 ), array( $byid[ $this->p['family'] ]['lat'], $byid[ $this->p['family'] ]['lng'] ) );
 		$this->assertEquals( View::map_point( $this->p['family'] )['lat'], $byid[ $this->p['family'] ]['lat'] );
 		$this->assertSame( '$600k', $byid[ $this->p['family'] ]['label'] );
 	}

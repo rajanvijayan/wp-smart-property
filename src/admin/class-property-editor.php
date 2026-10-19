@@ -89,9 +89,17 @@ final class Property_Editor {
 			if ( ! isset( $fields[ $key ] ) ) {
 				continue;
 			}
-			// Only managers change the listing's expiry and the geocoding state by hand.
-			if ( in_array( $key, array( 'expires', 'geocode' ), true ) && ! current_user_can( 'edit_others_estate_properties' ) ) {
+			// Only managers change the listing's expiry and set any geocoding state. Others can only
+			// record what they did with the pin they are saving.
+			if ( 'expires' === $key && ! current_user_can( 'edit_others_estate_properties' ) ) {
 				continue;
+			}
+			if ( 'geocode' === $key && ! current_user_can( 'edit_others_estate_properties' ) ) {
+				$pinned = ! empty( $values['lat'] ) || ! empty( $values['lng'] );
+				// A pin found or placed (with coordinates), or removed (without; it is looked up again).
+				if ( ! ( $pinned ? in_array( $value, array( 'done', 'manual' ), true ) : '' === $value ) ) {
+					continue;
+				}
 			}
 			Fields::set( $post_id, $key, $value );
 		}

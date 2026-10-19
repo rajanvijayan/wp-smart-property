@@ -13,7 +13,7 @@ use EstateCraft\Frontend\Frontend;
 use EstateCraft\Inquiries\Inquiry_Type;
 use EstateCraft\Legacy\Legacy_Taxonomies;
 use EstateCraft\Legacy\Migrator;
-use EstateCraft\Legacy\Post_Grid_Bridge;
+use EstateCraft\Legacy\Grid_Compat;
 use EstateCraft\Properties\Agent_Link;
 use EstateCraft\Properties\Fields;
 use EstateCraft\Properties\Property_Type;
@@ -58,7 +58,7 @@ final class Plugin {
 		Index::register();
 		Geocode_Queue::register();
 		Migrator::register();
-		Post_Grid_Bridge::load();
+		Grid_Compat::register();
 		Agent_Link::register();
 		Frontend::register();
 		add_filter( 'estatecraft_property_fields', array( Settings::class, 'custom_fields' ) );

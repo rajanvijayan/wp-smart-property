@@ -86,7 +86,7 @@ The upgrade runs by itself when the plugin is updated. It works in small batches
 | Admin notes | Private notes |
 | `/city/…`, `/country/…` | 301 redirect to the location page |
 | `/bed-room/3/`, `/bath-room/2/` | 301 redirect to the property archive filtered by that number |
-| `[post_grid id]` grids | Keep working (left to the Post Grid plugin when it is active) |
+| `[post_grid id]` grids | Keep working with EstateCraft's property cards, using each grid's saved post types, terms, order and page size (left to the Post Grid plugin when it is active) |
 
 ## Requirements
 
@@ -109,12 +109,11 @@ npm ci && npm run build   # admin apps, blocks and front-end scripts into build/
 npm run lint:js && npm run lint:css
 
 bin/install-wp-tests.sh wordpress_test root '' localhost latest
-WP_TESTS_DIR=/tmp/wordpress-tests-lib vendor/bin/phpunit               # core tests
-WP_TESTS_DIR=/tmp/wordpress-tests-lib vendor/bin/phpunit --group ajax  # grid AJAX tests
+WP_TESTS_DIR=/tmp/wordpress-tests-lib vendor/bin/phpunit
 ```
 
 `vendor/` and `build/` are not committed; the release workflow installs and builds them. Releases are deployed to WordPress.org by GitHub Actions when a version tag is pushed. See [RELEASING.md](RELEASING.md).
 
 ## License
 
-GPLv2 or later. The `[post_grid]` grid is based on the [Post Grid](https://wordpress.org/plugins/post-grid/) plugin by PickPlugins (GPL).
+GPLv2 or later.

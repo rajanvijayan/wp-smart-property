@@ -83,7 +83,8 @@ final class Assets {
 	 */
 	public static function enqueue_for_request() {
 		$post = is_singular() ? get_queried_object() : null;
-		if ( Templates::current() || ( $post instanceof \WP_Post && false !== strpos( $post->post_content, '<!-- wp:estatecraft/' ) ) ) {
+		$ours = $post instanceof \WP_Post && ( false !== strpos( $post->post_content, '<!-- wp:estatecraft/' ) || has_shortcode( $post->post_content, 'post_grid' ) );
+		if ( Templates::current() || $ours ) {
 			self::style();
 		}
 	}
