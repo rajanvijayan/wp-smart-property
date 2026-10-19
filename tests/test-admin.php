@@ -95,6 +95,50 @@ class Test_Admin extends EstateCraft_TestCase {
 		$this->assertSame( 'manual', Fields::get( $property, 'geocode' ) );
 	}
 
+	public function test_agents_record_how_their_pin_was_placed() {
+		$agent    = self::factory()->user->create( array( 'role' => 'estate_agent' ) );
+		$property = self::factory()->post->create(
+			array(
+				'post_type'   => 'property',
+				'post_author' => $agent,
+			)
+		);
+		Fields::set( $property, 'geocode', 'pending' );
+		wp_set_current_user( $agent );
+		// "Find address on the map".
+		$this->post_details(
+			$property,
+			array(
+				'lat'     => 51.5,
+				'lng'     => -0.1,
+				'geocode' => 'done',
+			)
+		);
+		$this->assertSame( 'done', Fields::get( $property, 'geocode' ) );
+		// Without coordinates, or any other state, the change is ignored.
+		$this->post_details( $property, array( 'geocode' => 'failed' ) );
+		$this->assertSame( 'done', Fields::get( $property, 'geocode' ) );
+		$this->post_details(
+			$property,
+			array(
+				'lat'     => 0,
+				'lng'     => 0,
+				'geocode' => 'manual',
+			)
+		);
+		$this->assertSame( 'done', Fields::get( $property, 'geocode' ), '"Placed by hand" needs a pin.' );
+		// "Remove pin": the address can be looked up again.
+		$this->post_details(
+			$property,
+			array(
+				'lat'     => 0,
+				'lng'     => 0,
+				'geocode' => '',
+			)
+		);
+		$this->assertSame( '', Fields::get( $property, 'geocode' ) );
+	}
+
 	public function test_details_need_a_valid_nonce_and_edit_rights() {
 		$property = self::factory()->post->create( array( 'post_type' => 'property' ) );
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'estate_agent' ) ) );

@@ -35,7 +35,6 @@ Only exact `X.Y.Z` tags deploy; a tag such as `3.0.0-rc.1` does nothing.
 composer install
 bin/install-wp-tests.sh wordpress_test root '' localhost latest
 WP_TESTS_DIR=/tmp/wordpress-tests-lib vendor/bin/phpunit
-WP_TESTS_DIR=/tmp/wordpress-tests-lib vendor/bin/phpunit --group ajax
 npm ci && npm run build && npm run lint:js && npm run lint:css
 ```
 

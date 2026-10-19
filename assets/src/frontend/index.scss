@@ -754,6 +754,7 @@ main.estatecraft-page {
 }
 
 .estatecraft-card__media {
+	position: relative;
 	display: block;
 	overflow: hidden;
 	background: var(--estatecraft-surface);
@@ -761,9 +762,13 @@ main.estatecraft-page {
 }
 
 .estatecraft-card__image {
+	// Fill the frame whatever the theme's img rules say.
+	position: absolute;
+	inset: 0;
 	display: block;
-	width: 100%;
-	height: 100%;
+	width: 100% !important;
+	max-width: none !important;
+	height: 100% !important;
 	object-fit: cover;
 	transition: transform 0.3s ease;
 
@@ -872,14 +877,18 @@ main.estatecraft-page {
 }
 
 .estatecraft-featured__media {
+	position: relative;
 	display: block;
 	min-height: 320px;
 	background: var(--estatecraft-surface);
 
 	img {
+		position: absolute;
+		inset: 0;
 		display: block;
-		width: 100%;
-		height: 100%;
+		width: 100% !important;
+		max-width: none !important;
+		height: 100% !important;
 		object-fit: cover;
 	}
 }

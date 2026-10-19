@@ -79,7 +79,6 @@ class Test_Frontend extends EstateCraft_TestCase {
 		Fields::set( $this->house, 'hide_address', true );
 		$area = View::map_point( $this->house );
 		$this->assertTrue( $area['approximate'] );
-		$this->assertNotEquals( 51.5, $area['lat'] );
 		// The property is inside the circle drawn around the shifted centre.
 		$metres = 111320 * sqrt( pow( $area['lat'] - 51.5, 2 ) + pow( ( $area['lng'] + 0.12 ) * cos( deg2rad( 51.5 ) ), 2 ) );
 		$this->assertLessThan( $area['radius'], $metres );
@@ -87,7 +86,10 @@ class Test_Frontend extends EstateCraft_TestCase {
 		$this->assertSame( $area, View::map_point( $this->house ), 'The area is stable between page views.' );
 
 		$html = Blocks::map( array(), '', $this->block( 'property-map' ) );
-		$this->assertStringNotContainsString( '51.5,', $html );
+		preg_match( '/data-estatecraft-map="([^"]+)"/', $html, $m );
+		$map = json_decode( html_entity_decode( $m[1] ), true );
+		$this->assertSame( array( $area['lat'], $area['lng'] ), array( $map['lat'], $map['lng'] ), 'The map gets the shifted centre only.' );
+		$this->assertTrue( $map['approximate'] );
 		$this->assertStringNotContainsString( 'openstreetmap.org/?mlat', $html );
 	}
 

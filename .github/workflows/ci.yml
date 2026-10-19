@@ -118,9 +118,3 @@ jobs:
         run: vendor/bin/phpunit
         env:
           WP_TESTS_DIR: /tmp/wordpress-tests-lib
-
-      # The grid AJAX tests are in WordPress's "ajax" group, which only runs when asked for.
-      - name: PHPUnit (AJAX)
-        run: vendor/bin/phpunit --group ajax
-        env:
-          WP_TESTS_DIR: /tmp/wordpress-tests-lib

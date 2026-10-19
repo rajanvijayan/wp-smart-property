@@ -5,7 +5,7 @@ Tags: real estate, property listings, property search, real estate agents, map
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 3.0.0
+Stable tag: 3.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,7 +78,7 @@ The update moves your data to EstateCraft by itself, in small batches, and never
 * "Bed Room" and "Bath Room" terms become bedroom and bathroom numbers; names that are not numbers become features.
 * The property address becomes the street address and is placed on the map; admin notes become private notes.
 * Old city, country, bedroom and bathroom links redirect to the new pages.
-* `[post_grid]` grids keep working.
+* `[post_grid]` grids keep working, shown with EstateCraft's property cards.
 
 A notice in wp-admin links to a report of what moved.
 
@@ -107,6 +107,13 @@ Copy a file from the plugin's `templates` folder to `yourtheme/estatecraft/` and
 5. An agency page with its agents and listings.
 
 == Changelog ==
+
+= 3.0.1 =
+
+* Changed: `[post_grid]` grids from 2.0 are now shown with EstateCraft's property cards, using each grid's saved post types, terms, order and number per page. The bundled copy of the Post Grid plugin is removed, which makes the plugin smaller and removes its old admin screens. Grid skins, layouts and custom CSS are not carried over; for new pages, use the Property Listings block.
+* Fix: property photos on cards fill their frame in classic themes such as Twenty Twenty-One.
+* Fix: an agent who finds a pin from the address, or removes a pin, has that recorded correctly.
+* Fix: blocks render correctly when called outside the editor on WordPress 6.5.
 
 = 3.0.0 =
 
@@ -139,6 +146,9 @@ WP Smart Property is now EstateCraft, rebuilt from the ground up. Your propertie
 * New: property search widget.
 
 == Upgrade Notice ==
+
+= 3.0.1 =
+2.0 property grids now use EstateCraft's property cards, and the old bundled grid plugin is removed.
 
 = 3.0.0 =
 WP Smart Property becomes EstateCraft: new property details, search and maps. Your data moves over automatically. Requires WordPress 6.5 and PHP 7.4.
